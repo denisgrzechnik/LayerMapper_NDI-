@@ -80,11 +80,11 @@ jobs:
           mkdir -p "LayerMapper/ScreenBroadcast"
           unzip -q libndi_ios.zip -d "LayerMapper/ScreenBroadcast"
 
-      # —— Budowanie (Archive) z ręcznym (Manual) podpisywaniem i odpowiednimi profilingami —— 
+      # —— Budowanie (Archive) z ręcznym podpisywaniem —— 
       - name: Build Archive
         run: |
           set -o pipefail
-          # Upewnij się, że nasz keychain “build.keychain” jest na liście
+          # “build.keychain” powinien być już w liście keychains
           KEYCHAIN_PATH="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')"
           xcodebuild archive \
             -project "$APP_PROJECT" \
