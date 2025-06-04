@@ -1,4 +1,4 @@
-name: Build & Upload to App Stor
+name: Build & Upload to App Store
 
 on:
   push:
