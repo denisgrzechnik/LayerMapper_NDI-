@@ -1,0 +1,39 @@
+# ----- ignorowane foldery i pliki NDI -----
+
+# Cały folder "NDI SDK for Apple" wewnątrz LayerMapper/LayerMapper
+/LayerMapper/NDI SDK for Apple/
+
+# Plik libndi_ios.a wewnątrz folderu ScreenBroadcast
+/ScreenBroadcast/libndi_ios.a
+
+# ------------------------------------------
+
+# Xcode / build
+build/
+DerivedData/
+*.xcworkspace
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Pliki systemowe macOS
+.DS_Store
+
+# Swift Package Manager
+/.build/
+/Packages/
+/swiftpm/
+
+# Carthage
+/Carthage/Build/
+
+# CocoaPods
+/Pods/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+
+# Prywatne nagłówki / klucze (jeśli jakieś masz)
+/*.entitlements
