@@ -1,6 +1,6 @@
 name: Build & Upload to App Store
 
-# Uruchamia workflow przy pushu na gałąź main lub gdy oznaczysz release tagiem v*
+# uruchamiamy przy puszu na main lub przy oznaczeniu releasem (tag v*)
 on:
   push:
     branches:
@@ -11,39 +11,59 @@ on:
 jobs:
   build-and-submit:
     name: Build i Wyslij do App Store
-    runs-on: macos-latest        # macos-latest ma Xcode 16.x (i iOS 18 SDK)
+    runs-on: macos-latest
 
+    # zmienne, które musisz uzupełnić (są też w sekcji env, jeśli wolisz)
     env:
-      # Zamień na swoje wartości:
-      APP_SCHEME: "LayerMapper"              # Schemat w Xcode
-      APP_WORKSPACE: ""                      # jeżeli używasz .xcworkspace; inaczej zostaw puste
-      APP_PROJECT: "LayerMapper.xcodeproj"   # nazwa .xcodeproj (jeśli nie używasz workspace)
-      APP_EXPORT_METHOD: "app-store"         # -> do publikacji w App Store
-      APP_BUNDLE_ID: "com.layermapper.mobile"
-      APP_ARCHIVE_PATH: "$HOME/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)/LayerMapper.xcarchive"
-      APP_IPA_PATH: "$HOME/LayerMapper.ipa"
+      APP_SCHEME:           "LayerMapper"                    # nazwa schematu w Xcode
+      APP_WORKSPACE:        ""                               # jeśli masz .xcworkspace, wypełnij, inaczej ""
+      APP_PROJECT:          "LayerMapper.xcodeproj"          # nazwa projektu (jeśli nie workspace)
+      APP_EXPORT_METHOD:    "app-store"
+      APP_BUNDLE_ID:        "com.layermapper.mobile"
+      APP_ARCHIVE_PATH:     "$HOME/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)/LayerMapper.xcarchive"
+      APP_IPA_PATH:         "$HOME/LayerMapper.ipa"
 
     steps:
-      - name: Check out repository
+      - name: Check out repository (z LFS)
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
+      # ———————————————————————————————————————————————————————
+      # 1) Rozpakuj NDI SDK i libndi_ios w odpowiednie miejsca
+      # ———————————————————————————————————————————————————————
       - name: Unzip NDI SDK for iOS
         run: |
+          # Tworzymy docelową ścieżkę wewnątrz katalogu LayerMapper/LayerMapper:
           mkdir -p "LayerMapper/LayerMapper/NDI SDK for Apple"
-          unzip -qq ndi_sdk_for_ios.zip -d "LayerMapper/LayerMapper/NDI SDK for Apple"
+          # Rozpakowujemy z katalogu głównego workflow (GITHUB_WORKSPACE)
+          unzip -q "$GITHUB_WORKSPACE/ndi_sdk_for_ios.zip" \
+            -d "LayerMapper/LayerMapper/NDI SDK for Apple"
+        # Aby unzip faktycznie pobrał plik .zip z LFS:
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
 
       - name: Unzip libndi_ios.a
         run: |
-          mkdir -p "ScreenBroadcast/lib"
-          unzip -qq libndi_ios.zip -d "ScreenBroadcast/lib"
+          mkdir -p "ScreenBroadcast"
+          unzip -q "$GITHUB_WORKSPACE/libndi_ios.zip" \
+            -d "ScreenBroadcast"
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
 
+      # ———————————————————————————————————————————————————————
+      # 2) Instalacja Ruby (jeśli potrzebujesz fastlane / altool itp.)
+      # ———————————————————————————————————————————————————————
       - name: Ustaw Ruby (dla altool, fastlane itp.)
         run: |
           sudo gem install cocoapods --no-document
 
-      # —— Przygotuj Keychain i Klucze —— 
+      # ———————————————————————————————————————————————————————
+      # 3) Utwórz keychain i zaimportuj certyfikat + provisioning profile
+      # ———————————————————————————————————————————————————————
       - name: Create keychain
         run: |
+          # Tworzymy pusty keychain o nazwie build.keychain
           security create-keychain -p "" build.keychain
           security set-keychain-settings -lut 21600 build.keychain
           security unlock-keychain -p "" build.keychain
@@ -54,8 +74,8 @@ jobs:
           echo "$P12_BASE64" | base64 --decode > distribution.p12
           security import distribution.p12 -k ~/Library/Keychains/build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
         env:
-          P12_BASE64: ${{ secrets.P12_BASE64 }}
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          P12_BASE64:           ${{ secrets.P12_BASE64 }}
+          P12_PASSWORD:         ${{ secrets.P12_PASSWORD }}
 
       - name: Decode and install Provisioning Profile
         run: |
@@ -65,10 +85,13 @@ jobs:
         env:
           MOBILEPROVISION_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
 
-      # —— Budowanie aplikacji —— 
+      # ———————————————————————————————————————————————————————
+      # 4) Budowanie archiwum (archive)
+      # ———————————————————————————————————————————————————————
       - name: Build Archive
         run: |
           set -o pipefail
+
           if [ -z "$APP_WORKSPACE" ]; then
             xcodebuild archive \
               -project "$APP_PROJECT" \
@@ -89,6 +112,9 @@ jobs:
               CODE_SIGN_IDENTITY="Apple Distribution"
           fi
 
+      # ———————————————————————————————————————————————————————
+      # 5) Eksport IPA
+      # ———————————————————————————————————————————————————————
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
@@ -119,7 +145,9 @@ jobs:
             -exportPath "$HOME" \
             -allowProvisioningUpdates
 
-      # —— Wyślij do App Store Connect —— 
+      # ———————————————————————————————————————————————————————
+      # 6) Upload do App Store Connect
+      # ———————————————————————————————————————————————————————
       - name: Upload to App Store (altool)
         run: |
           xcrun altool --upload-app \
@@ -129,11 +157,16 @@ jobs:
             --password "${{ secrets.APP_SPECIFIC_PASSWORD }}" \
             --output-format xml
         env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          APPLE_ID:               ${{ secrets.APPLE_ID }}
+          APP_SPECIFIC_PASSWORD:  ${{ secrets.APP_SPECIFIC_PASSWORD }}
 
-      # —— Cleanup build keychain —— 
+      # ———————————————————————————————————————————————————————
+      # 7) Cleanup build keychain (tylko gdy istnieje)
+      # ———————————————————————————————————————————————————————
       - name: Cleanup build keychain
         if: always()
         run: |
-          security delete-keychain build.keychain
+          # Spróbuj usunąć build.keychain, jeśli istnieje
+          if security list-keychains | grep -q "build.keychain"; then
+            security delete-keychain build.keychain
+          fi
