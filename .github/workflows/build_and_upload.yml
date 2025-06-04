@@ -37,8 +37,7 @@ jobs:
           security set-keychain-settings -lut 21600 build.keychain
           security unlock-keychain -p "" build.keychain
           # Dodajemy nasz keychain na początek listy
-          security list-keychains -d user | tr -d '"' | tr '\n' ' ' | \
-            xargs security list-keychains -s build.keychain
+          security list-keychains -d user | tr -d '"' | tr '\n' ' ' | xargs security list-keychains -s build.keychain
 
       - name: Decode and install Distribution Certificate (.p12)
         env:
@@ -66,9 +65,9 @@ jobs:
           echo "$MOBILEPROVISION_SETUP_BASE64" | base64 --decode > ScreenBroadcastSetupUI.mobileprovision
 
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp LayerMapper.mobileprovision            ~/Library/MobileDevice/Provisioning\ Profiles/
-          cp ScreenBroadcast.mobileprovision         ~/Library/MobileDevice/Provisioning\ Profiles/
-          cp ScreenBroadcastSetupUI.mobileprovision  ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp LayerMapper.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp ScreenBroadcast.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp ScreenBroadcastSetupUI.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
       # —— Rozpakowanie bibliotek NDI —— 
       - name: Unzip NDI SDK for iOS
@@ -87,7 +86,6 @@ jobs:
           set -o pipefail
           # “build.keychain” powinien być już w liście keychains
           KEYCHAIN_PATH="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')"
-
           xcodebuild archive \
             -project "$APP_PROJECT" \
             -scheme "$APP_SCHEME" \
@@ -147,6 +145,4 @@ jobs:
       - name: Cleanup build keychain
         if: always()
         run: |
-          # Próbujemy oba warianty: build.keychain oraz build.keychain-db
-          security delete-keychain build.keychain || true
-          security delete-keychain build.keychain-db || true
+          security delete-keychain build.keychain
