@@ -89,29 +89,30 @@ jobs:
       # 4) Budowanie archiwum (archive)
       # ———————————————————————————————————————————————————————
       - name: Build Archive
-  run: |
-    set -o pipefail
+        run: |
+          set -o pipefail
 
-    if [ -z "$APP_WORKSPACE" ]; then
-      xcodebuild archive \
-        -project "$APP_PROJECT" \
-        -scheme "$APP_SCHEME" \
-        -configuration Release \
-        -archivePath "$APP_ARCHIVE_PATH" \
-        CODE_SIGN_KEYCHAIN="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')" \
-        PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
-        CODE_SIGN_IDENTITY="Apple Distribution"
-    else
-      xcodebuild archive \
-        -workspace "$APP_WORKSPACE" \
-        -scheme "$APP_SCHEME" \
-        -configuration Release \
-        -archivePath "$APP_ARCHIVE_PATH" \
-        CODE_SIGN_KEYCHAIN="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')" \
-        PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
-        CODE_SIGN_IDENTITY="Apple Distribution"
-    fi
+          if [ -z "$APP_WORKSPACE" ]; then
+            xcodebuild archive \
+              -project "$APP_PROJECT" \
+              -scheme "$APP_SCHEME" \
+              -configuration Release \
+              -archivePath "$APP_ARCHIVE_PATH" \
+              CODE_SIGN_KEYCHAIN="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')"
 
+              PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
+              CODE_SIGN_IDENTITY="Apple Distribution"
+          else
+            xcodebuild archive \
+              -workspace "$APP_WORKSPACE" \
+              -scheme "$APP_SCHEME" \
+              -configuration Release \
+              -archivePath "$APP_ARCHIVE_PATH" \
+              CODE_SIGN_KEYCHAIN="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')"
+
+              PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
+              CODE_SIGN_IDENTITY="Apple Distribution"
+          fi
 
       # ———————————————————————————————————————————————————————
       # 5) Eksport IPA
