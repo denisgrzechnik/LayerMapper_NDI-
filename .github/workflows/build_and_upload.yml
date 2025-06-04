@@ -14,7 +14,7 @@ jobs:
 
     env:
       APP_SCHEME: "LayerMapper"
-      APP_WORKSPACE: ""                          # jeśli nie używasz workspace, zostaw puste
+      APP_WORKSPACE: ""                          # jeśli nie używasz workspace
       APP_PROJECT: "LayerMapper.xcodeproj"
       APP_EXPORT_METHOD: "app-store"
       APP_BUNDLE_ID: "com.layermapper.mobile"
@@ -27,11 +27,11 @@ jobs:
         with:
           lfs: true
 
-      - name: Ustaw Ruby (dla altool, fastlane itp.)
+      - name: Ustaw Ruby (dla altool)
         run: |
           sudo gem install cocoapods --no-document
 
-      # —— Przygotuj Keychain i Klucze —— 
+      # —— Stworzenie Keychain i import .p12 —— 
       - name: Create keychain
         run: |
           security create-keychain -p "" build.keychain
@@ -47,15 +47,22 @@ jobs:
           P12_BASE64: ${{ secrets.P12_BASE64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
 
-      - name: Decode and install Provisioning Profile
+      # —— Decode i zainstalowanie wszystkich trzech provisioning profiles —— 
+      - name: Decode and install Provisioning Profiles
         run: |
-          echo "$MOBILEPROVISION_BASE64" | base64 --decode > LayerMapper_AppStore.mobileprovision
+          echo "$MOBILEPROVISION_MAIN_BASE64"    | base64 --decode > LayerMapper.mobileprovision
+          echo "$MOBILEPROVISION_BROADCAST_BASE64" | base64 --decode > ScreenBroadcast.mobileprovision
+          echo "$MOBILEPROVISION_SETUP_BASE64"    | base64 --decode > ScreenBroadcastSetupUI.mobileprovision
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp LayerMapper_AppStore.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp LayerMapper.mobileprovision    ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp ScreenBroadcast.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp ScreenBroadcastSetupUI.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
         env:
-          MOBILEPROVISION_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+          MOBILEPROVISION_MAIN_BASE64:    ${{ secrets.MOBILEPROVISION_MAIN_BASE64 }}
+          MOBILEPROVISION_BROADCAST_BASE64: ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
+          MOBILEPROVISION_SETUP_BASE64:    ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
 
-      # —— Rozpakuj biblioteki NDI (LFS już zrobiło checkout) —— 
+      # —— Rozpakowanie bibliotek NDI —— 
       - name: Unzip NDI SDK for iOS
         run: |
           mkdir -p "LayerMapper/LayerMapper/NDI SDK for Apple"
@@ -66,32 +73,24 @@ jobs:
           mkdir -p "LayerMapper/ScreenBroadcast"
           unzip -q libndi_ios.zip -d "LayerMapper/ScreenBroadcast"
 
-      # —— Budowanie aplikacji —— 
+      # —— Budowanie (Archive) – z ręcznym podaniem provisioning profile dla trzech bundle IDs —— 
       - name: Build Archive
         run: |
           set -o pipefail
-
-          # Zmienna, w której trzymamy ścieżkę do keychaina:
           KEYCHAIN_PATH="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')"
 
-          if [ -z "$APP_WORKSPACE" ]; then
-            xcodebuild archive \
-              -project "$APP_PROJECT" \
-              -scheme "$APP_SCHEME" \
-              -configuration Release \
-              -archivePath "$APP_ARCHIVE_PATH" \
-              CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
-              -allowProvisioningUpdates
-          else
-            xcodebuild archive \
-              -workspace "$APP_WORKSPACE" \
-              -scheme "$APP_SCHEME" \
-              -configuration Release \
-              -archivePath "$APP_ARCHIVE_PATH" \
-              CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
-              -allowProvisioningUpdates
-          fi
+          xcodebuild archive \
+            -project "$APP_PROJECT" \
+            -scheme "$APP_SCHEME" \
+            -configuration Release \
+            -archivePath "$APP_ARCHIVE_PATH" \
+            CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
+            PROVISIONING_PROFILE_SPECIFIER[bundleId="com.layermapper.mobile.screenbroadcast"]="ScreenBroadcast AppStore Profile" \
+            PROVISIONING_PROFILE_SPECIFIER[bundleId="com.layermapper.mobile.screenbroadcast.setup"]="ScreenBroadcastSetupUI AppStore Profile"
 
+      # —— Eksport .ipa —— 
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
@@ -119,10 +118,9 @@ jobs:
             </dict>
             </plist>
             EOF \
-            -exportPath "$HOME"                 \
-            -allowProvisioningUpdates
+            -exportPath "$HOME"
 
-      # —— Wyślij do App Store Connect —— 
+      # —— Upload do App Store —— 
       - name: Upload to App Store (altool)
         run: |
           xcrun altool --upload-app \
@@ -132,11 +130,11 @@ jobs:
             --password "${{ secrets.APP_SPECIFIC_PASSWORD }}" \
             --output-format xml
         env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          APPLE_ID:                 ${{ secrets.APPLE_ID }}
+          APPLE_SPECIFIC_PASSWORD:  ${{ secrets.APPLE_SPECIFIC_PASSWORD }}
 
+      # —— Sprzątanie keychain ——
       - name: Cleanup build keychain
         if: always()
         run: |
           security delete-keychain build.keychain
-
