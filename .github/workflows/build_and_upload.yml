@@ -36,7 +36,7 @@ jobs:
           security create-keychain -p "" build.keychain
           security set-keychain-settings -lut 21600 build.keychain
           security unlock-keychain -p "" build.keychain
-          # Dodajemy nasz keychain na początek listy keychains
+          # Dodajemy nasz keychain na początek listy
           security list-keychains -d user | tr -d '"' | tr '\n' ' ' | xargs security list-keychains -s build.keychain
 
       - name: Decode and install Distribution Certificate (.p12)
@@ -86,7 +86,6 @@ jobs:
           set -o pipefail
           # “build.keychain” powinien być już w liście keychains
           KEYCHAIN_PATH="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')"
-
           xcodebuild archive \
             -project "$APP_PROJECT" \
             -scheme "$APP_SCHEME" \
@@ -95,9 +94,9 @@ jobs:
             CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="Apple Distribution" \
             CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
-            'PROVISIONING_PROFILE_SPECIFIER=LayerMapper AppStore Profile' \
-            'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast]=ScreenBroadcast AppStore Profile' \
-            'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast.setup]=ScreenBroadcastSetupUI AppStore Profile'
+            PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
+            PROVISIONING_PROFILE_SPECIFIER\[bundleId=com.layermapper.mobile.screenbroadcast\]="ScreenBroadcast AppStore Profile" \
+            PROVISIONING_PROFILE_SPECIFIER\[bundleId=com.layermapper.mobile.screenbroadcast.setup\]="ScreenBroadcastSetupUI AppStore Profile"
 
       # —— Eksport gotowego .ipa —— 
       - name: Export IPA
