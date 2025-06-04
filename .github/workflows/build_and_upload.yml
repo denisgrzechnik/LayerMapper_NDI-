@@ -15,10 +15,10 @@ jobs:
 
     env:
       # Zamień na swoje wartości:
-      APP_SCHEME: "LayerMapper"       # Schemat w Xcode
-      APP_WORKSPACE: ""               # jeżeli używasz .xcworkspace; inaczej zostaw puste
-      APP_PROJECT: "LayerMapper.xcodeproj"  # nazwa .xcodeproj (jeśli nie używasz workspace)
-      APP_EXPORT_METHOD: "app-store"  # -> do publikacji w App Store
+      APP_SCHEME: "LayerMapper"              # Schemat w Xcode
+      APP_WORKSPACE: ""                      # jeżeli używasz .xcworkspace; inaczej zostaw puste
+      APP_PROJECT: "LayerMapper.xcodeproj"   # nazwa .xcodeproj (jeśli nie używasz workspace)
+      APP_EXPORT_METHOD: "app-store"         # -> do publikacji w App Store
       APP_BUNDLE_ID: "com.layermapper.mobile"
       APP_ARCHIVE_PATH: "$HOME/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)/LayerMapper.xcarchive"
       APP_IPA_PATH: "$HOME/LayerMapper.ipa"
@@ -26,6 +26,16 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Unzip NDI SDK for iOS
+        run: |
+          mkdir -p "LayerMapper/LayerMapper/NDI SDK for Apple"
+          unzip -qq ndi_sdk_for_ios.zip -d "LayerMapper/LayerMapper/NDI SDK for Apple"
+
+      - name: Unzip libndi_ios.a
+        run: |
+          mkdir -p "ScreenBroadcast/lib"
+          unzip -qq libndi_ios.zip -d "ScreenBroadcast/lib"
 
       - name: Ustaw Ruby (dla altool, fastlane itp.)
         run: |
@@ -52,7 +62,6 @@ jobs:
           echo "$MOBILEPROVISION_BASE64" | base64 --decode > LayerMapper_ProvisioningProfile.mobileprovision
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp LayerMapper_ProvisioningProfile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
-
         env:
           MOBILEPROVISION_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
 
@@ -107,7 +116,7 @@ jobs:
             </dict>
             </plist>
             EOF \
-            -exportPath "$HOME"                 \
+            -exportPath "$HOME" \
             -allowProvisioningUpdates
 
       # —— Wyślij do App Store Connect —— 
@@ -123,7 +132,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
 
-      # (Opcjonalnie) -- jeśli chcesz otrzymywać notificatione np. w Slacku, e-mail itp.
+      # —— Cleanup build keychain —— 
       - name: Cleanup build keychain
         if: always()
         run: |
