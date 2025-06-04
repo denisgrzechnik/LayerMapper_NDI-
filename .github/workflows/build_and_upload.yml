@@ -14,7 +14,7 @@ jobs:
 
     env:
       APP_SCHEME: "LayerMapper"
-      APP_PROJECT: "LayerMapper.xcodeproj"       # nie używamy workspace
+      APP_PROJECT: "LayerMapper.xcodeproj"
       APP_EXPORT_METHOD: "app-store"
       APP_BUNDLE_ID: "com.layermapper.mobile"
       APP_ARCHIVE_PATH: "$HOME/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)/LayerMapper.xcarchive"
@@ -26,11 +26,11 @@ jobs:
         with:
           lfs: true
 
-      - name: Ustaw Ruby (dla altool, fastlane itp.)
+      - name: Ustaw Ruby (dla altool)
         run: |
           sudo gem install cocoapods --no-document
 
-      # —— Stworzenie Keychain i import certyfikatu —— 
+      # —— Stworzenie keychain i import certyfikatu (.p12) —— 
       - name: Create keychain
         run: |
           security create-keychain -p "" build.keychain
@@ -50,14 +50,14 @@ jobs:
             -P "$P12_PASSWORD" \
             -T /usr/bin/codesign
 
-      # —— Decode i zainstalowanie wszystkich trzech provisioning profiles —— 
+      # —— Decode i zainstalowanie trzech provisioning profiles —— 
       - name: Decode and install Provisioning Profiles
         env:
-          MOBILEPROVISION_MAIN_BASE64:     ${{ secrets.MOBILEPROVISION_MAIN_BASE64 }}
-          MOBILEPROVISION_BROADCAST_BASE64:${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
-          MOBILEPROVISION_SETUP_BASE64:    ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
+          MOBILEPROVISION_MAIN_BASE64:      ${{ secrets.MOBILEPROVISION_MAIN_BASE64 }}
+          MOBILEPROVISION_BROADCAST_BASE64: ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
+          MOBILEPROVISION_SETUP_BASE64:     ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
         run: |
-          # Główny profil dla com.layermapper.mobile
+          # Profil dla com.layermapper.mobile
           echo "$MOBILEPROVISION_MAIN_BASE64" | base64 --decode > LayerMapper.mobileprovision
           # Profil dla com.layermapper.mobile.screenbroadcast
           echo "$MOBILEPROVISION_BROADCAST_BASE64" | base64 --decode > ScreenBroadcast.mobileprovision
@@ -80,11 +80,11 @@ jobs:
           mkdir -p "LayerMapper/ScreenBroadcast"
           unzip -q libndi_ios.zip -d "LayerMapper/ScreenBroadcast"
 
-      # —— Budowanie (Archive) – z ręcznym (Manual) podpisywaniem i przekazaniem profili —— 
+      # —— Budowanie (Archive) z ręcznym (Manual) podpisywaniem i odpowiednimi profilingami —— 
       - name: Build Archive
         run: |
           set -o pipefail
-          # Po dodaniu build.keychain, odczytujemy listę active keychains:
+          # Upewnij się, że nasz keychain “build.keychain” jest na liście
           KEYCHAIN_PATH="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')"
           xcodebuild archive \
             -project "$APP_PROJECT" \
@@ -98,7 +98,7 @@ jobs:
             PROVISIONING_PROFILE_SPECIFIER\[bundleId=com.layermapper.mobile.screenbroadcast\]="ScreenBroadcast AppStore Profile" \
             PROVISIONING_PROFILE_SPECIFIER\[bundleId=com.layermapper.mobile.screenbroadcast.setup\]="ScreenBroadcastSetupUI AppStore Profile"
 
-      # —— Eksport .ipa —— 
+      # —— Eksport gotowego .ipa —— 
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
@@ -128,11 +128,11 @@ jobs:
             EOF \
             -exportPath "$HOME"
 
-      # —— Wysyłka IPA do App Store Connect —— 
+      # —— Upload do App Store Connect —— 
       - name: Upload to App Store (altool)
         env:
-          APPLE_ID:                ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD:   ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          APPLE_ID:               ${{ secrets.APPLE_ID }}
+          APP_SPECIFIC_PASSWORD:  ${{ secrets.APP_SPECIFIC_PASSWORD }}
         run: |
           xcrun altool --upload-app \
             --type ios \
@@ -141,7 +141,7 @@ jobs:
             --password "$APPLE_SPECIFIC_PASSWORD" \
             --output-format xml
 
-      # —— Sprzątanie keychain —— 
+      # —— Sprzątanie: usunięcie utworzonego keychain —— 
       - name: Cleanup build keychain
         if: always()
         run: |
