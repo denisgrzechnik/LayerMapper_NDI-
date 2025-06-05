@@ -21,15 +21,18 @@ jobs:
       APP_IPA_PATH: "$HOME/LayerMapper.ipa"
 
     steps:
+      # 1) Checkout z LFS
       - name: Check out repository z LFS
         uses: actions/checkout@v4
         with:
           lfs: true
 
+      # 2) Zainstaluj Ruby (aby działalo altool)
       - name: Ustaw Ruby (dla altool)
         run: |
           sudo gem install cocoapods --no-document
 
+      # 3) Stwórz keychain i zaimportuj certyfikat (.p12)
       - name: Create keychain
         run: |
           security create-keychain -p "" build.keychain
@@ -38,6 +41,7 @@ jobs:
           security list-keychains -d user | tr -d '"' | tr '\n' ' ' | \
             xargs security list-keychains -s build.keychain
 
+      # 4) Odszyfruj i zainstaluj Distribution Certificate (.p12)
       - name: Decode and install Distribution Certificate (.p12)
         env:
           P12_BASE64: ${{ secrets.P12_BASE64 }}
@@ -49,6 +53,7 @@ jobs:
             -P "$P12_PASSWORD" \
             -T /usr/bin/codesign
 
+      # 5) Odszyfruj i zainstaluj 3 provisioning profiles
       - name: Decode and install Provisioning Profiles
         env:
           MOBILEPROVISION_BASE64:          ${{ secrets.MOBILEPROVISION_BASE64 }}
@@ -64,48 +69,29 @@ jobs:
           cp ScreenBroadcast.mobileprovision         ~/Library/MobileDevice/Provisioning\ Profiles/
           cp ScreenBroadcastSetupUI.mobileprovision  ~/Library/MobileDevice/Provisioning\ Profiles/
 
-      # —— Tu wchodzi poprawiona sekcja rozpakowania NDI —— 
-      - name: Unzip NDI SDK for iOS i skopiuj nagłówki oraz bibliotekę
+      # 6) Rozpakowanie NDI_SDK.zip oraz libndi_ios_arm64.a.zip
+      - name: Rozpakuj NDI_SDK.zip oraz libndi_ios_arm64.a.zip
         run: |
           set -e
 
-          # 1) Rozpakuj całe NDI_SDK.zip do katalogu tymczasowego
-          mkdir -p temp_NDI
-          unzip -q libs/NDI_SDK.zip -d temp_NDI || { echo "Nie udało się rozpakować libs/NDI_SDK.zip"; exit 1; }
+          # Upewnij się, że katalog docs i libs istnieją
+          mkdir -p libs
 
-          # 2) Znajdź folder include (literki małe) wewnątrz temp_NDI
-          INCLUDE_DIR=$(find temp_NDI -type d -iname "include" | head -n1 || :)
-          if [ -z "$INCLUDE_DIR" ]; then
-            echo "❌ Nie znaleziono katalogu „include” w rozpakowanym NDI_SDK.zip. Zawartość temp_NDI:"
-            find temp_NDI -maxdepth 2 | sed 's/^/  /'
-            exit 1
+          # Rozpakuj NDI_SDK.zip -> libs/NDI_SDK/...
+          if [ -f "libs/NDI_SDK.zip" ]; then
+            unzip -q "libs/NDI_SDK.zip" -d libs/ || { echo "❌ Nie udało się rozpakować libs/NDI_SDK.zip"; exit 1; }
+          else
+            echo "❌ Brakuje pliku libs/NDI_SDK.zip"; exit 1
           fi
 
-          mkdir -p "libs/NDI_SDK/include"
-          cp -R "$INCLUDE_DIR/"* "libs/NDI_SDK/include/" || { echo "❌ Błąd kopiowania nagłówków z $INCLUDE_DIR"; exit 1; }
-
-          # 3) Znajdź plik libndi_ios.a i skopiuj do libs/NDI_SDK/lib
-          LIB_FILE=$(find temp_NDI -type f -name "libndi_ios.a" | head -n1 || :)
-          if [ -z "$LIB_FILE" ]; then
-            echo "❌ Nie znaleziono pliku libndi_ios.a w rozpakowanym NDI_SDK. Zawartość temp_NDI:"
-            find temp_NDI -maxdepth 3 | sed 's/^/  /'
-            exit 1
-          fi
-
-          mkdir -p "libs/NDI_SDK/lib"
-          cp "$LIB_FILE" "libs/NDI_SDK/lib/" || { echo "❌ Błąd kopiowania biblioteki $LIB_FILE"; exit 1; }
-
-          # 4) Rozpakuj, jeśli jest, archiwum libndi_ios_arm64.a.zip
+          # Rozpakuj libndi_ios_arm64.a.zip -> libs/libndi_ios_arm64.a
           if [ -f "libs/libndi_ios_arm64.a.zip" ]; then
             unzip -q "libs/libndi_ios_arm64.a.zip" -d libs/ || { echo "❌ Nie udało się rozpakować libs/libndi_ios_arm64.a.zip"; exit 1; }
           else
             echo "ℹ️ Plik libs/libndi_ios_arm64.a.zip nie istnieje, pomijam."
           fi
 
-          # 5) Usuń folder tymczasowy
-          rm -rf temp_NDI
-
-      # —— Dalej: Archive / Export IPA / Upload —— 
+      # 7) Budowanie (Archive) z ręcznym podpisywaniem
       - name: Build Archive
         run: |
           set -o pipefail
@@ -123,6 +109,7 @@ jobs:
             'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast]=ScreenBroadcast AppStore Profile' \
             'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast.setup]=ScreenBroadcastSetupUI AppStore Profile'
 
+      # 8) Eksport gotowego .ipa
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
@@ -152,10 +139,11 @@ jobs:
             EOF \
             -exportPath "$HOME"
 
+      # 9) Upload do App Store Connect
       - name: Upload to App Store (altool)
         env:
           APPLE_ID:               ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD:  ${{ secrets.APPLE_SPECIFIC_PASSWORD }}
+          APP_SPECIFIC_PASSWORD:  ${{ secrets.APP_SPECIFIC_PASSWORD }}
         run: |
           xcrun altool --upload-app \
             --type ios \
@@ -164,6 +152,7 @@ jobs:
             --password "$APPLE_SPECIFIC_PASSWORD" \
             --output-format xml
 
+      # 10) Sprzątanie: usunięcie utworzonego keychain
       - name: Cleanup build keychain
         if: always()
         run: |
