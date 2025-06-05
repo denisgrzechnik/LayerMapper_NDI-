@@ -27,12 +27,12 @@ jobs:
         with:
           lfs: true
 
-      # 2) Zainstaluj Ruby/lokalne narzędzia do altool
+      # 2) Zainstaluj Ruby (dla altool)
       - name: Ustaw Ruby (dla altool)
         run: |
           sudo gem install cocoapods --no-document
 
-      # 3) Stwórz keychain i dodaj certyfikat
+      # 3) Stwórz keychain i importuj certyfikat (.p12)
       - name: Create keychain
         run: |
           security create-keychain -p "" build.keychain
@@ -41,7 +41,7 @@ jobs:
           security list-keychains -d user | tr -d '"' | tr '\n' ' ' | \
             xargs security list-keychains -s build.keychain
 
-      # 4) Dodaj Distribution Certificate (.p12)
+      # 4) Odszyfruj i zainstaluj Distribution Certificate (.p12)
       - name: Decode and install Distribution Certificate (.p12)
         env:
           P12_BASE64: ${{ secrets.P12_BASE64 }}
@@ -53,7 +53,7 @@ jobs:
             -P "$P12_PASSWORD" \
             -T /usr/bin/codesign
 
-      # 5) Dodaj provisioning profiles
+      # 5) Odszyfruj i zainstaluj 3 provisioning profiles
       - name: Decode and install Provisioning Profiles
         env:
           MOBILEPROVISION_BASE64:          ${{ secrets.MOBILEPROVISION_BASE64 }}
@@ -98,12 +98,12 @@ jobs:
             -scheme "$APP_SCHEME" \
             -configuration Release \
             -archivePath "$APP_ARCHIVE_PATH" \
-            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_STYLE="Manual" \
             CODE_SIGN_IDENTITY="Apple Distribution" \
             CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
-            PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
-            PROVISIONING_PROFILE_SPECIFIER\[com.layermapper.mobile.screenbroadcast\]="ScreenBroadcast AppStore Profile" \
-            PROVISIONING_PROFILE_SPECIFIER\[com.layermapper.mobile.screenbroadcast.setup\]="ScreenBroadcastSetupUI AppStore Profile"
+            "PROVISIONING_PROFILE_SPECIFIER=LayerMapper AppStore Profile" \
+            "PROVISIONING_PROFILE_SPECIFIER[com.layermapper.mobile.screenbroadcast]=ScreenBroadcast AppStore Profile" \
+            "PROVISIONING_PROFILE_SPECIFIER[com.layermapper.mobile.screenbroadcast.setup]=ScreenBroadcastSetupUI AppStore Profile"
 
       # 8) Eksport .ipa
       - name: Export IPA
@@ -139,7 +139,7 @@ jobs:
       - name: Upload to App Store (altool)
         env:
           APPLE_ID:               ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD:  ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          APP_SPECIFIC_PASSWORD:  ${{ secrets.APPLE_SPECIFIC_PASSWORD }}
         run: |
           xcrun altool --upload-app \
             --type ios \
