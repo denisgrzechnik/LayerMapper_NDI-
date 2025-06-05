@@ -1,0 +1,1612 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		58154F5D2DF1D97800375723 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58154F5C2DF1D97800375723 /* ReplayKit.framework */; };
+		58154F602DF1D97800375723 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58154F5F2DF1D97800375723 /* SampleHandler.swift */; };
+		58154F732DF1D97900375723 /* NDI.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 58154F5A2DF1D97800375723 /* NDI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		58154F832DF1DCB500375723 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58154F5C2DF1D97800375723 /* ReplayKit.framework */; };
+		58154F842DF1DCB500375723 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58154F682DF1D97900375723 /* UIKit.framework */; };
+		58154F8B2DF1DCB500375723 /* ScreenBroadcastSetupUI.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 58154F822DF1DCB500375723 /* ScreenBroadcastSetupUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		58154F942DF1DD3B00375723 /* BroadcastSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58154F922DF1DD3B00375723 /* BroadcastSetupViewController.swift */; };
+		5815506F2DF1E08700375723 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5815505E2DF1E08700375723 /* ContentView.swift */; };
+		581550702DF1E08700375723 /* NDIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5815505F2DF1E08700375723 /* NDIEnvironment.swift */; };
+		581550712DF1E08700375723 /* MonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550602DF1E08700375723 /* MonitorView.swift */; };
+		581550722DF1E08700375723 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 581550632DF1E08700375723 /* LaunchScreen.storyboard */; };
+		581550732DF1E08700375723 /* SourcePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550652DF1E08700375723 /* SourcePickerView.swift */; };
+		581550742DF1E08700375723 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550662DF1E08700375723 /* AppDelegate.swift */; };
+		581550752DF1E08700375723 /* NDIReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581550672DF1E08700375723 /* NDIReceiver.swift */; };
+		581550762DF1E08700375723 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5815506A2DF1E08700375723 /* Preview Assets.xcassets */; };
+		581550782DF1E08700375723 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5815506C2DF1E08700375723 /* SceneDelegate.swift */; };
+		581550792DF1E08700375723 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5815506D2DF1E08700375723 /* Assets.xcassets */; };
+		5815507A2DF1E08700375723 /* PixelBufferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5815506E2DF1E08700375723 /* PixelBufferView.swift */; };
+		5815507E2DF1E68300375723 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5815507D2DF1E68300375723 /* libc++.tbd */; };
+		5815507F2DF1E69D00375723 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5815507D2DF1E68300375723 /* libc++.tbd */; };
+		581550812DF1E6EF00375723 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581550802DF1E6EF00375723 /* VideoToolbox.framework */; };
+		5865331C2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5865331B2DF2036A0079003B /* libndi_ios_arm64.a */; };
+		5865331D2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5865331B2DF2036A0079003B /* libndi_ios_arm64.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		58154F712DF1D97900375723 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58154F3D2DF1D8CC00375723 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58154F592DF1D97800375723;
+			remoteInfo = NDI;
+		};
+		58154F892DF1DCB500375723 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58154F3D2DF1D8CC00375723 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 58154F812DF1DCB500375723;
+			remoteInfo = ScreenBroadcastSetupUI;
+		};
+		581550532DF1DE6C00375723 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58154FF52DF1DE6B00375723 /* NDIlib_DynamicLoad.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C625D9971EDF4E8F001B8032;
+			remoteInfo = NDIlib_DynamicLoad;
+		};
+		581550562DF1DE6C00375723 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58154FD82DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6ED36B41EE0BB8D008A8798;
+			remoteInfo = NDIlib_Recv_Audio_MacPlay;
+		};
+		581550592DF1DE6C00375723 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 58154FE62DF1DE6B00375723 /* NDIlib_Routing.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6981851206406FD0080F598;
+			remoteInfo = NDIlib_Routing;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		58154F7A2DF1D97900375723 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				58154F8B2DF1DCB500375723 /* ScreenBroadcastSetupUI.appex in Embed Foundation Extensions */,
+				58154F732DF1D97900375723 /* NDI.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		58154F452DF1D8CC00375723 /* LayerMapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayerMapper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		58154F5A2DF1D97800375723 /* NDI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NDI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		58154F5C2DF1D97800375723 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		58154F5F2DF1D97800375723 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHandler.swift; sourceTree = "<group>"; };
+		58154F612DF1D97800375723 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		58154F682DF1D97900375723 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		58154F7B2DF1DB9D00375723 /* ScreenBroadcastRelease.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ScreenBroadcastRelease.entitlements; sourceTree = "<group>"; };
+		58154F7C2DF1DB9D00375723 /* ScreenBroadcast-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ScreenBroadcast-Bridging-Header.h"; sourceTree = "<group>"; };
+		58154F7D2DF1DB9D00375723 /* ScreenBroadcast.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ScreenBroadcast.entitlements; sourceTree = "<group>"; };
+		58154F822DF1DCB500375723 /* ScreenBroadcastSetupUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScreenBroadcastSetupUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		58154F902DF1DD3B00375723 /* ScreenBroadcastSetupUI.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ScreenBroadcastSetupUI.entitlements; sourceTree = "<group>"; };
+		58154F912DF1DD3B00375723 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		58154F922DF1DD3B00375723 /* BroadcastSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastSetupViewController.swift; sourceTree = "<group>"; };
+		58154F952DF1DD9400375723 /* ScreenBroadcastSetupUIRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ScreenBroadcastSetupUIRelease.entitlements; sourceTree = "<group>"; };
+		58154F9B2DF1DE6B00375723 /* Introduction to the NDI SDK.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Introduction to the NDI SDK.pdf"; sourceTree = "<group>"; };
+		58154F9C2DF1DE6B00375723 /* NDI Changes.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "NDI Changes.pdf"; sourceTree = "<group>"; };
+		58154FA12DF1DE6B00375723 /* NDI High Bandwidth Logo Light@5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI High Bandwidth Logo Light@5x.png"; sourceTree = "<group>"; };
+		58154FA22DF1DE6B00375723 /* NDI High Bandwidth Logo Light.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NDI High Bandwidth Logo Light.svg"; sourceTree = "<group>"; };
+		58154FA32DF1DE6B00375723 /* NDI High Bandwidth Logo Light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI High Bandwidth Logo Light.png"; sourceTree = "<group>"; };
+		58154FA52DF1DE6B00375723 /* NDI High Bandwidth Logo Dark.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NDI High Bandwidth Logo Dark.svg"; sourceTree = "<group>"; };
+		58154FA62DF1DE6B00375723 /* NDI High Bandwidth Logo Dark@5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI High Bandwidth Logo Dark@5x.png"; sourceTree = "<group>"; };
+		58154FA72DF1DE6B00375723 /* NDI High Bandwidth Logo Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI High Bandwidth Logo Dark.png"; sourceTree = "<group>"; };
+		58154FAB2DF1DE6B00375723 /* NDI Logo Master - Light.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NDI Logo Master - Light.svg"; sourceTree = "<group>"; };
+		58154FAC2DF1DE6B00375723 /* NDI Logo Master - Light@5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI Logo Master - Light@5x.png"; sourceTree = "<group>"; };
+		58154FAD2DF1DE6B00375723 /* NDI Logo Master - Light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI Logo Master - Light.png"; sourceTree = "<group>"; };
+		58154FAF2DF1DE6B00375723 /* NDI Logo Master.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NDI Logo Master.svg"; sourceTree = "<group>"; };
+		58154FB02DF1DE6B00375723 /* NDI Logo Master.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI Logo Master.png"; sourceTree = "<group>"; };
+		58154FB12DF1DE6B00375723 /* NDI Logo Master@5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI Logo Master@5x.png"; sourceTree = "<group>"; };
+		58154FB42DF1DE6B00375723 /* NDI Logo with Tagline Light.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NDI Logo with Tagline Light.svg"; sourceTree = "<group>"; };
+		58154FB52DF1DE6B00375723 /* NDI Logo with Tagline Light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI Logo with Tagline Light.png"; sourceTree = "<group>"; };
+		58154FB62DF1DE6B00375723 /* NDI Logo with Tagline Light@5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI Logo with Tagline Light@5x.png"; sourceTree = "<group>"; };
+		58154FB82DF1DE6B00375723 /* NDI Logo with Tagline Dark@5x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI Logo with Tagline Dark@5x.png"; sourceTree = "<group>"; };
+		58154FB92DF1DE6B00375723 /* NDI Logo with Tagline Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NDI Logo with Tagline Dark.png"; sourceTree = "<group>"; };
+		58154FBA2DF1DE6B00375723 /* NDI Logo with Tagline Dark.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = "NDI Logo with Tagline Dark.svg"; sourceTree = "<group>"; };
+		58154FBB2DF1DE6B00375723 /* NDI Brand Guidelines.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "NDI Brand Guidelines.pdf"; sourceTree = "<group>"; };
+		58154FBC2DF1DE6B00375723 /* NDI SDK Documentation.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "NDI SDK Documentation.pdf"; sourceTree = "<group>"; };
+		58154FBE2DF1DE6B00375723 /* libNDI_for_Mac.pkg */ = {isa = PBXFileReference; lastKnownFileType = file; path = libNDI_for_Mac.pkg; sourceTree = "<group>"; };
+		58154FC02DF1DE6B00375723 /* Application.NDI.FreeAudio */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = Application.NDI.FreeAudio; sourceTree = "<group>"; };
+		58154FC12DF1DE6B00375723 /* Application.Mac.NDI.DirectoryService */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = Application.Mac.NDI.DirectoryService; sourceTree = "<group>"; };
+		58154FC22DF1DE6B00375723 /* Application.Mac.NDI.Recording */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = Application.Mac.NDI.Recording; sourceTree = "<group>"; };
+		58154FC32DF1DE6B00375723 /* libndi_licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = libndi_licenses.txt; sourceTree = "<group>"; };
+		58154FC42DF1DE6B00375723 /* Application.Mac.NDI.Benchmark */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = Application.Mac.NDI.Benchmark; sourceTree = "<group>"; };
+		58154FC62DF1DE6B00375723 /* libndi_licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = libndi_licenses.txt; sourceTree = "<group>"; };
+		58154FC82DF1DE6B00375723 /* Processing.NDI.compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.compat.h; sourceTree = "<group>"; };
+		58154FC92DF1DE6B00375723 /* Processing.NDI.utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.utilities.h; sourceTree = "<group>"; };
+		58154FCA2DF1DE6B00375723 /* Processing.NDI.Recv.ex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Recv.ex.h; sourceTree = "<group>"; };
+		58154FCB2DF1DE6B00375723 /* Processing.NDI.deprecated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.deprecated.h; sourceTree = "<group>"; };
+		58154FCC2DF1DE6B00375723 /* Processing.NDI.Routing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Routing.h; sourceTree = "<group>"; };
+		58154FCD2DF1DE6B00375723 /* Processing.NDI.Send.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Send.h; sourceTree = "<group>"; };
+		58154FCE2DF1DE6B00375723 /* Processing.NDI.structs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.structs.h; sourceTree = "<group>"; };
+		58154FCF2DF1DE6B00375723 /* Processing.NDI.Lib.cplusplus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Lib.cplusplus.h; sourceTree = "<group>"; };
+		58154FD02DF1DE6B00375723 /* Processing.NDI.FrameSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.FrameSync.h; sourceTree = "<group>"; };
+		58154FD12DF1DE6B00375723 /* Processing.NDI.Find.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Find.h; sourceTree = "<group>"; };
+		58154FD22DF1DE6B00375723 /* Processing.NDI.DynamicLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.DynamicLoad.h; sourceTree = "<group>"; };
+		58154FD32DF1DE6B00375723 /* Processing.NDI.Recv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Recv.h; sourceTree = "<group>"; };
+		58154FD42DF1DE6B00375723 /* Processing.NDI.Lib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Lib.h; sourceTree = "<group>"; };
+		58154FD82DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = NDIlib_Recv_Audio_MacPlay.xcodeproj; sourceTree = "<group>"; };
+		58154FDC2DF1DE6B00375723 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		58154FDF2DF1DE6B00375723 /* NDIlib_Send_Video_and_Audio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Video_and_Audio.cpp; sourceTree = "<group>"; };
+		58154FE12DF1DE6B00375723 /* NDIlib_Send_Benchmark.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Benchmark.cpp; sourceTree = "<group>"; };
+		58154FE32DF1DE6B00375723 /* NDIlib_Find.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Find.cpp; sourceTree = "<group>"; };
+		58154FE52DF1DE6B00375723 /* NDIlib_Routing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Routing.cpp; sourceTree = "<group>"; };
+		58154FE62DF1DE6B00375723 /* NDIlib_Routing.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = NDIlib_Routing.xcodeproj; sourceTree = "<group>"; };
+		58154FEA2DF1DE6B00375723 /* NDIlib_Send_Video.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Video.cpp; sourceTree = "<group>"; };
+		58154FEC2DF1DE6B00375723 /* NDIlib_Recv_FrameSync.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_FrameSync.cpp; sourceTree = "<group>"; };
+		58154FEE2DF1DE6B00375723 /* NDIlib_Send_PNG.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_PNG.cpp; sourceTree = "<group>"; };
+		58154FF02DF1DE6B00375723 /* NDIlib_Send_Video_Async.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Video_Async.cpp; sourceTree = "<group>"; };
+		58154FF22DF1DE6B00375723 /* NDIlib_Recv_FrameSync_resend.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_FrameSync_resend.cpp; sourceTree = "<group>"; };
+		58154FF42DF1DE6B00375723 /* NDIlib_DynamicLoad.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_DynamicLoad.cpp; sourceTree = "<group>"; };
+		58154FF52DF1DE6B00375723 /* NDIlib_DynamicLoad.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = NDIlib_DynamicLoad.xcodeproj; sourceTree = "<group>"; };
+		58154FF92DF1DE6B00375723 /* NDIlib_Send_VirtualPTZ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_VirtualPTZ.cpp; sourceTree = "<group>"; };
+		58154FFB2DF1DE6B00375723 /* NDIlib_Recv_FrameSync_timing.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_FrameSync_timing.cpp; sourceTree = "<group>"; };
+		58154FFD2DF1DE6B00375723 /* NDIlib_Recv_Audio_16bpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_Audio_16bpp.cpp; sourceTree = "<group>"; };
+		58154FFF2DF1DE6B00375723 /* NDIlib_Send_10bit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_10bit.cpp; sourceTree = "<group>"; };
+		581550012DF1DE6B00375723 /* NDIlib_Send_Video_Advanced.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Video_Advanced.cpp; sourceTree = "<group>"; };
+		581550032DF1DE6B00375723 /* NDIlib_Recv_PTZ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_PTZ.cpp; sourceTree = "<group>"; };
+		581550052DF1DE6B00375723 /* NDIlib_Recv.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv.cpp; sourceTree = "<group>"; };
+		581550072DF1DE6B00375723 /* NDIlib_Send_Latency.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Latency.cpp; sourceTree = "<group>"; };
+		581550092DF1DE6B00375723 /* NDIlib_Send_BMD.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_BMD.cpp; sourceTree = "<group>"; };
+		5815500D2DF1DE6B00375723 /* DeckLinkAPI_v7_1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v7_1.h; sourceTree = "<group>"; };
+		5815500E2DF1DE6B00375723 /* DeckLinkAPI_v10_4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v10_4.h; sourceTree = "<group>"; };
+		5815500F2DF1DE6B00375723 /* DeckLinkAPIConfiguration_v10_4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIConfiguration_v10_4.h; sourceTree = "<group>"; };
+		581550102DF1DE6B00375723 /* DeckLinkAPI_v8_0.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v8_0.h; sourceTree = "<group>"; };
+		581550112DF1DE6B00375723 /* DeckLinkAPIConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIConfiguration.h; sourceTree = "<group>"; };
+		581550122DF1DE6B00375723 /* DeckLinkAPIDeckControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIDeckControl.h; sourceTree = "<group>"; };
+		581550132DF1DE6B00375723 /* DeckLinkAPIDispatch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeckLinkAPIDispatch.cpp; sourceTree = "<group>"; };
+		581550142DF1DE6B00375723 /* DeckLinkAPI_v10_9.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v10_9.h; sourceTree = "<group>"; };
+		581550152DF1DE6B00375723 /* DeckLinkAPIConfiguration_v10_9.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIConfiguration_v10_9.h; sourceTree = "<group>"; };
+		581550162DF1DE6B00375723 /* DeckLinkAPI_v7_6.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v7_6.h; sourceTree = "<group>"; };
+		581550172DF1DE6B00375723 /* DeckLinkAPIDispatch_v8_0.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeckLinkAPIDispatch_v8_0.cpp; sourceTree = "<group>"; };
+		581550182DF1DE6B00375723 /* DeckLinkAPIModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIModes.h; sourceTree = "<group>"; };
+		581550192DF1DE6B00375723 /* DeckLinkAPI_v9_9.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v9_9.h; sourceTree = "<group>"; };
+		5815501A2DF1DE6B00375723 /* DeckLinkAPIDiscovery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIDiscovery.h; sourceTree = "<group>"; };
+		5815501B2DF1DE6B00375723 /* DeckLinkAPIStreaming.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIStreaming.h; sourceTree = "<group>"; };
+		5815501C2DF1DE6B00375723 /* DeckLinkAPIConfiguration_v10_2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIConfiguration_v10_2.h; sourceTree = "<group>"; };
+		5815501D2DF1DE6B00375723 /* DeckLinkAPI_v10_2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v10_2.h; sourceTree = "<group>"; };
+		5815501E2DF1DE6B00375723 /* DeckLinkAPI_v7_3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v7_3.h; sourceTree = "<group>"; };
+		5815501F2DF1DE6B00375723 /* DeckLinkAPI_v7_9.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v7_9.h; sourceTree = "<group>"; };
+		581550202DF1DE6B00375723 /* DeckLinkAPIVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIVersion.h; sourceTree = "<group>"; };
+		581550212DF1DE6B00375723 /* DeckLinkAPI_v10_6.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v10_6.h; sourceTree = "<group>"; };
+		581550222DF1DE6B00375723 /* DeckLinkAPI_v9_2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v9_2.h; sourceTree = "<group>"; };
+		581550232DF1DE6B00375723 /* DeckLinkAPITypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPITypes.h; sourceTree = "<group>"; };
+		581550242DF1DE6B00375723 /* DeckLinkAPIDispatch_v7_6.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeckLinkAPIDispatch_v7_6.cpp; sourceTree = "<group>"; };
+		581550252DF1DE6B00375723 /* DeckLinkAPIDispatch_v10_8.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeckLinkAPIDispatch_v10_8.cpp; sourceTree = "<group>"; };
+		581550262DF1DE6B00375723 /* DeckLinkAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI.h; sourceTree = "<group>"; };
+		581550272DF1DE6B00375723 /* DeckLinkAPIConfiguration_v10_5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPIConfiguration_v10_5.h; sourceTree = "<group>"; };
+		581550282DF1DE6B00375723 /* DeckLinkAPI_v10_5.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v10_5.h; sourceTree = "<group>"; };
+		581550292DF1DE6B00375723 /* DeckLinkAPI_v8_1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeckLinkAPI_v8_1.h; sourceTree = "<group>"; };
+		5815502B2DF1DE6B00375723 /* NDIlib_Send_Audio_16bpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Audio_16bpp.cpp; sourceTree = "<group>"; };
+		5815502D2DF1DE6B00375723 /* NDIlib_Send_Audio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Audio.cpp; sourceTree = "<group>"; };
+		5815502F2DF1DE6B00375723 /* NDIlib_Recv_Multichannel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_Multichannel.cpp; sourceTree = "<group>"; };
+		581550312DF1DE6B00375723 /* NDIlib_Recv_HDR.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_HDR.cpp; sourceTree = "<group>"; };
+		581550332DF1DE6B00375723 /* NDIlib_Send_16bit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_16bit.cpp; sourceTree = "<group>"; };
+		581550352DF1DE6B00375723 /* NDIlib_Recv_PNG.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_PNG.cpp; sourceTree = "<group>"; };
+		581550372DF1DE6B00375723 /* NDIlib_Send_Capabilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Capabilities.cpp; sourceTree = "<group>"; };
+		581550392DF1DE6B00375723 /* NDIlib_FreeAudio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_FreeAudio.cpp; sourceTree = "<group>"; };
+		5815503B2DF1DE6B00375723 /* NDIlib_Tally_Echo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Tally_Echo.cpp; sourceTree = "<group>"; };
+		5815503D2DF1DE6B00375723 /* NDIlib_Recv_WebControl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Recv_WebControl.cpp; sourceTree = "<group>"; };
+		5815503F2DF1DE6B00375723 /* NDIlib_Send_AudioFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_AudioFile.cpp; sourceTree = "<group>"; };
+		581550412DF1DE6B00375723 /* lodepng.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lodepng.h; sourceTree = "<group>"; };
+		581550422DF1DE6B00375723 /* miniaudio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = miniaudio.h; sourceTree = "<group>"; };
+		581550432DF1DE6B00375723 /* rapidxml_print.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = rapidxml_print.hpp; sourceTree = "<group>"; };
+		581550442DF1DE6B00375723 /* lodepng.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lodepng.cpp; sourceTree = "<group>"; };
+		581550452DF1DE6B00375723 /* rapidxml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = rapidxml.hpp; sourceTree = "<group>"; };
+		581550462DF1DE6B00375723 /* picopng.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = picopng.hpp; sourceTree = "<group>"; };
+		581550482DF1DE6B00375723 /* NDIlib_Send_Benchmark_8K.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Benchmark_8K.cpp; sourceTree = "<group>"; };
+		5815504B2DF1DE6B00375723 /* libndi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libndi.dylib; sourceTree = "<group>"; };
+		5815504C2DF1DE6B00375723 /* libndi_licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = libndi_licenses.txt; sourceTree = "<group>"; };
+		5815504F2DF1DE6B00375723 /* libndi_tvos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libndi_tvos.a; sourceTree = "<group>"; };
+		581550502DF1DE6B00375723 /* NDI SDK License Agreement.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "NDI SDK License Agreement.pdf"; sourceTree = "<group>"; };
+		581550512DF1DE6B00375723 /* Version.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Version.txt; sourceTree = "<group>"; };
+		5815505D2DF1E08600375723 /* LayerMapper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LayerMapper-Bridging-Header.h"; sourceTree = "<group>"; };
+		5815505E2DF1E08700375723 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5815505F2DF1E08700375723 /* NDIEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDIEnvironment.swift; sourceTree = "<group>"; };
+		581550602DF1E08700375723 /* MonitorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonitorView.swift; sourceTree = "<group>"; };
+		581550612DF1E08700375723 /* LayerMapper.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = LayerMapper.entitlements; sourceTree = "<group>"; };
+		581550642DF1E08700375723 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		581550652DF1E08700375723 /* SourcePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SourcePickerView.swift; sourceTree = "<group>"; };
+		581550662DF1E08700375723 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		581550672DF1E08700375723 /* NDIReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NDIReceiver.swift; sourceTree = "<group>"; };
+		581550682DF1E08700375723 /* LayerMapper-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LayerMapper-Bridging-Header.h"; sourceTree = "<group>"; };
+		5815506A2DF1E08700375723 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5815506B2DF1E08700375723 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5815506C2DF1E08700375723 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5815506D2DF1E08700375723 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5815506E2DF1E08700375723 /* PixelBufferView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PixelBufferView.swift; sourceTree = "<group>"; };
+		5815507B2DF1E14700375723 /* LayerMapperRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LayerMapperRelease.entitlements; sourceTree = "<group>"; };
+		5815507C2DF1E1FE00375723 /* NDIRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NDIRelease.entitlements; sourceTree = "<group>"; };
+		5815507D2DF1E68300375723 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		581550802DF1E6EF00375723 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		5865331B2DF2036A0079003B /* libndi_ios_arm64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libndi_ios_arm64.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		58154F422DF1D8CC00375723 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				581550812DF1E6EF00375723 /* VideoToolbox.framework in Frameworks */,
+				5815507F2DF1E69D00375723 /* libc++.tbd in Frameworks */,
+				5865331C2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58154F572DF1D97800375723 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5815507E2DF1E68300375723 /* libc++.tbd in Frameworks */,
+				5865331D2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */,
+				58154F5D2DF1D97800375723 /* ReplayKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58154F7F2DF1DCB500375723 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58154F832DF1DCB500375723 /* ReplayKit.framework in Frameworks */,
+				58154F842DF1DCB500375723 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		58154F3C2DF1D8CC00375723 = {
+			isa = PBXGroup;
+			children = (
+				58154F962DF1DDE100375723 /* libs */,
+				58154F472DF1D8CC00375723 /* LayerMapper */,
+				58154F5E2DF1D97800375723 /* NDI */,
+				58154F852DF1DCB500375723 /* ScreenBroadcastSetupUI */,
+				58154F5B2DF1D97800375723 /* Frameworks */,
+				58154F462DF1D8CC00375723 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		58154F462DF1D8CC00375723 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				58154F452DF1D8CC00375723 /* LayerMapper.app */,
+				58154F5A2DF1D97800375723 /* NDI.appex */,
+				58154F822DF1DCB500375723 /* ScreenBroadcastSetupUI.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		58154F472DF1D8CC00375723 /* LayerMapper */ = {
+			isa = PBXGroup;
+			children = (
+				5815507B2DF1E14700375723 /* LayerMapperRelease.entitlements */,
+				581550662DF1E08700375723 /* AppDelegate.swift */,
+				5815506D2DF1E08700375723 /* Assets.xcassets */,
+				581550622DF1E08700375723 /* Base.lproj */,
+				5815505E2DF1E08700375723 /* ContentView.swift */,
+				5815506B2DF1E08700375723 /* Info.plist */,
+				581550682DF1E08700375723 /* LayerMapper-Bridging-Header.h */,
+				581550612DF1E08700375723 /* LayerMapper.entitlements */,
+				581550602DF1E08700375723 /* MonitorView.swift */,
+				5815505F2DF1E08700375723 /* NDIEnvironment.swift */,
+				581550672DF1E08700375723 /* NDIReceiver.swift */,
+				5815506E2DF1E08700375723 /* PixelBufferView.swift */,
+				581550692DF1E08700375723 /* Preview Content */,
+				5815506C2DF1E08700375723 /* SceneDelegate.swift */,
+				581550652DF1E08700375723 /* SourcePickerView.swift */,
+				5815505D2DF1E08600375723 /* LayerMapper-Bridging-Header.h */,
+			);
+			path = LayerMapper;
+			sourceTree = "<group>";
+		};
+		58154F5B2DF1D97800375723 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				581550802DF1E6EF00375723 /* VideoToolbox.framework */,
+				5815507D2DF1E68300375723 /* libc++.tbd */,
+				58154F5C2DF1D97800375723 /* ReplayKit.framework */,
+				58154F682DF1D97900375723 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		58154F5E2DF1D97800375723 /* NDI */ = {
+			isa = PBXGroup;
+			children = (
+				5815507C2DF1E1FE00375723 /* NDIRelease.entitlements */,
+				58154F7C2DF1DB9D00375723 /* ScreenBroadcast-Bridging-Header.h */,
+				58154F7D2DF1DB9D00375723 /* ScreenBroadcast.entitlements */,
+				58154F7B2DF1DB9D00375723 /* ScreenBroadcastRelease.entitlements */,
+				58154F5F2DF1D97800375723 /* SampleHandler.swift */,
+				58154F612DF1D97800375723 /* Info.plist */,
+			);
+			path = NDI;
+			sourceTree = "<group>";
+		};
+		58154F852DF1DCB500375723 /* ScreenBroadcastSetupUI */ = {
+			isa = PBXGroup;
+			children = (
+				58154F952DF1DD9400375723 /* ScreenBroadcastSetupUIRelease.entitlements */,
+				58154F922DF1DD3B00375723 /* BroadcastSetupViewController.swift */,
+				58154F912DF1DD3B00375723 /* Info.plist */,
+				58154F902DF1DD3B00375723 /* ScreenBroadcastSetupUI.entitlements */,
+			);
+			path = ScreenBroadcastSetupUI;
+			sourceTree = "<group>";
+		};
+		58154F962DF1DDE100375723 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				5865331B2DF2036A0079003B /* libndi_ios_arm64.a */,
+				58154F992DF1DE6B00375723 /* NDI_SDK */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		58154F992DF1DE6B00375723 /* NDI_SDK */ = {
+			isa = PBXGroup;
+			children = (
+				58154F9A2DF1DE6B00375723 /* documentation */,
+				58154FBD2DF1DE6B00375723 /* redist */,
+				58154FBF2DF1DE6B00375723 /* bin */,
+				58154FC52DF1DE6B00375723 /* licenses */,
+				58154FC72DF1DE6B00375723 /* include */,
+				58154FD52DF1DE6B00375723 /* examples */,
+				581550492DF1DE6B00375723 /* lib */,
+				581550502DF1DE6B00375723 /* NDI SDK License Agreement.pdf */,
+				581550512DF1DE6B00375723 /* Version.txt */,
+			);
+			path = NDI_SDK;
+			sourceTree = "<group>";
+		};
+		58154F9A2DF1DE6B00375723 /* documentation */ = {
+			isa = PBXGroup;
+			children = (
+				58154F9B2DF1DE6B00375723 /* Introduction to the NDI SDK.pdf */,
+				58154F9C2DF1DE6B00375723 /* NDI Changes.pdf */,
+				58154F9D2DF1DE6B00375723 /* brand-assets */,
+				58154FBB2DF1DE6B00375723 /* NDI Brand Guidelines.pdf */,
+				58154FBC2DF1DE6B00375723 /* NDI SDK Documentation.pdf */,
+			);
+			path = documentation;
+			sourceTree = "<group>";
+		};
+		58154F9D2DF1DE6B00375723 /* brand-assets */ = {
+			isa = PBXGroup;
+			children = (
+				58154F9E2DF1DE6B00375723 /* 2. NDI High Bandwidth */,
+				58154FA82DF1DE6B00375723 /* 1. NDI */,
+			);
+			path = "brand-assets";
+			sourceTree = "<group>";
+		};
+		58154F9E2DF1DE6B00375723 /* 2. NDI High Bandwidth */ = {
+			isa = PBXGroup;
+			children = (
+				58154F9F2DF1DE6B00375723 /* 2.1 NDI High Bandwidth Logo */,
+			);
+			path = "2. NDI High Bandwidth";
+			sourceTree = "<group>";
+		};
+		58154F9F2DF1DE6B00375723 /* 2.1 NDI High Bandwidth Logo */ = {
+			isa = PBXGroup;
+			children = (
+				58154FA02DF1DE6B00375723 /* Light */,
+				58154FA42DF1DE6B00375723 /* Dark */,
+			);
+			path = "2.1 NDI High Bandwidth Logo";
+			sourceTree = "<group>";
+		};
+		58154FA02DF1DE6B00375723 /* Light */ = {
+			isa = PBXGroup;
+			children = (
+				58154FA12DF1DE6B00375723 /* NDI High Bandwidth Logo Light@5x.png */,
+				58154FA22DF1DE6B00375723 /* NDI High Bandwidth Logo Light.svg */,
+				58154FA32DF1DE6B00375723 /* NDI High Bandwidth Logo Light.png */,
+			);
+			path = Light;
+			sourceTree = "<group>";
+		};
+		58154FA42DF1DE6B00375723 /* Dark */ = {
+			isa = PBXGroup;
+			children = (
+				58154FA52DF1DE6B00375723 /* NDI High Bandwidth Logo Dark.svg */,
+				58154FA62DF1DE6B00375723 /* NDI High Bandwidth Logo Dark@5x.png */,
+				58154FA72DF1DE6B00375723 /* NDI High Bandwidth Logo Dark.png */,
+			);
+			path = Dark;
+			sourceTree = "<group>";
+		};
+		58154FA82DF1DE6B00375723 /* 1. NDI */ = {
+			isa = PBXGroup;
+			children = (
+				58154FA92DF1DE6B00375723 /* 1.1 NDI Logo */,
+				58154FB22DF1DE6B00375723 /* 1.2 NDI Logo with Tagline */,
+			);
+			path = "1. NDI";
+			sourceTree = "<group>";
+		};
+		58154FA92DF1DE6B00375723 /* 1.1 NDI Logo */ = {
+			isa = PBXGroup;
+			children = (
+				58154FAA2DF1DE6B00375723 /* Light */,
+				58154FAE2DF1DE6B00375723 /* Dark */,
+			);
+			path = "1.1 NDI Logo";
+			sourceTree = "<group>";
+		};
+		58154FAA2DF1DE6B00375723 /* Light */ = {
+			isa = PBXGroup;
+			children = (
+				58154FAB2DF1DE6B00375723 /* NDI Logo Master - Light.svg */,
+				58154FAC2DF1DE6B00375723 /* NDI Logo Master - Light@5x.png */,
+				58154FAD2DF1DE6B00375723 /* NDI Logo Master - Light.png */,
+			);
+			path = Light;
+			sourceTree = "<group>";
+		};
+		58154FAE2DF1DE6B00375723 /* Dark */ = {
+			isa = PBXGroup;
+			children = (
+				58154FAF2DF1DE6B00375723 /* NDI Logo Master.svg */,
+				58154FB02DF1DE6B00375723 /* NDI Logo Master.png */,
+				58154FB12DF1DE6B00375723 /* NDI Logo Master@5x.png */,
+			);
+			path = Dark;
+			sourceTree = "<group>";
+		};
+		58154FB22DF1DE6B00375723 /* 1.2 NDI Logo with Tagline */ = {
+			isa = PBXGroup;
+			children = (
+				58154FB32DF1DE6B00375723 /* Light */,
+				58154FB72DF1DE6B00375723 /* Dark */,
+			);
+			path = "1.2 NDI Logo with Tagline";
+			sourceTree = "<group>";
+		};
+		58154FB32DF1DE6B00375723 /* Light */ = {
+			isa = PBXGroup;
+			children = (
+				58154FB42DF1DE6B00375723 /* NDI Logo with Tagline Light.svg */,
+				58154FB52DF1DE6B00375723 /* NDI Logo with Tagline Light.png */,
+				58154FB62DF1DE6B00375723 /* NDI Logo with Tagline Light@5x.png */,
+			);
+			path = Light;
+			sourceTree = "<group>";
+		};
+		58154FB72DF1DE6B00375723 /* Dark */ = {
+			isa = PBXGroup;
+			children = (
+				58154FB82DF1DE6B00375723 /* NDI Logo with Tagline Dark@5x.png */,
+				58154FB92DF1DE6B00375723 /* NDI Logo with Tagline Dark.png */,
+				58154FBA2DF1DE6B00375723 /* NDI Logo with Tagline Dark.svg */,
+			);
+			path = Dark;
+			sourceTree = "<group>";
+		};
+		58154FBD2DF1DE6B00375723 /* redist */ = {
+			isa = PBXGroup;
+			children = (
+				58154FBE2DF1DE6B00375723 /* libNDI_for_Mac.pkg */,
+			);
+			path = redist;
+			sourceTree = "<group>";
+		};
+		58154FBF2DF1DE6B00375723 /* bin */ = {
+			isa = PBXGroup;
+			children = (
+				58154FC02DF1DE6B00375723 /* Application.NDI.FreeAudio */,
+				58154FC12DF1DE6B00375723 /* Application.Mac.NDI.DirectoryService */,
+				58154FC22DF1DE6B00375723 /* Application.Mac.NDI.Recording */,
+				58154FC32DF1DE6B00375723 /* libndi_licenses.txt */,
+				58154FC42DF1DE6B00375723 /* Application.Mac.NDI.Benchmark */,
+			);
+			path = bin;
+			sourceTree = "<group>";
+		};
+		58154FC52DF1DE6B00375723 /* licenses */ = {
+			isa = PBXGroup;
+			children = (
+				58154FC62DF1DE6B00375723 /* libndi_licenses.txt */,
+			);
+			path = licenses;
+			sourceTree = "<group>";
+		};
+		58154FC72DF1DE6B00375723 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				58154FC82DF1DE6B00375723 /* Processing.NDI.compat.h */,
+				58154FC92DF1DE6B00375723 /* Processing.NDI.utilities.h */,
+				58154FCA2DF1DE6B00375723 /* Processing.NDI.Recv.ex.h */,
+				58154FCB2DF1DE6B00375723 /* Processing.NDI.deprecated.h */,
+				58154FCC2DF1DE6B00375723 /* Processing.NDI.Routing.h */,
+				58154FCD2DF1DE6B00375723 /* Processing.NDI.Send.h */,
+				58154FCE2DF1DE6B00375723 /* Processing.NDI.structs.h */,
+				58154FCF2DF1DE6B00375723 /* Processing.NDI.Lib.cplusplus.h */,
+				58154FD02DF1DE6B00375723 /* Processing.NDI.FrameSync.h */,
+				58154FD12DF1DE6B00375723 /* Processing.NDI.Find.h */,
+				58154FD22DF1DE6B00375723 /* Processing.NDI.DynamicLoad.h */,
+				58154FD32DF1DE6B00375723 /* Processing.NDI.Recv.h */,
+				58154FD42DF1DE6B00375723 /* Processing.NDI.Lib.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		58154FD52DF1DE6B00375723 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				58154FD62DF1DE6B00375723 /* xcode */,
+				58154FDD2DF1DE6B00375723 /* C++ */,
+			);
+			path = examples;
+			sourceTree = "<group>";
+		};
+		58154FD62DF1DE6B00375723 /* xcode */ = {
+			isa = PBXGroup;
+			children = (
+				58154FD72DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay */,
+			);
+			path = xcode;
+			sourceTree = "<group>";
+		};
+		58154FD72DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay */ = {
+			isa = PBXGroup;
+			children = (
+				58154FD82DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay.xcodeproj */,
+				58154FDB2DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay */,
+			);
+			path = NDIlib_Recv_Audio_MacPlay;
+			sourceTree = "<group>";
+		};
+		58154FD92DF1DE6B00375723 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				581550572DF1DE6C00375723 /* NDIlib_Recv_Audio_MacPlay */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		58154FDB2DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay */ = {
+			isa = PBXGroup;
+			children = (
+				58154FDC2DF1DE6B00375723 /* main.cpp */,
+			);
+			path = NDIlib_Recv_Audio_MacPlay;
+			sourceTree = "<group>";
+		};
+		58154FDD2DF1DE6B00375723 /* C++ */ = {
+			isa = PBXGroup;
+			children = (
+				58154FDE2DF1DE6B00375723 /* NDIlib_Send_Video_and_Audio */,
+				58154FE02DF1DE6B00375723 /* NDIlib_Send_Benchmark */,
+				58154FE22DF1DE6B00375723 /* NDIlib_Find */,
+				58154FE42DF1DE6B00375723 /* NDIlib_Routing */,
+				58154FE92DF1DE6B00375723 /* NDIlib_Send_Video */,
+				58154FEB2DF1DE6B00375723 /* NDIlib_Recv_FrameSync */,
+				58154FED2DF1DE6B00375723 /* NDIlib_Send_PNG */,
+				58154FEF2DF1DE6B00375723 /* NDIlib_Send_Video_Async */,
+				58154FF12DF1DE6B00375723 /* NDIlib_Recv_FrameSync_resend */,
+				58154FF32DF1DE6B00375723 /* NDIlib_DynamicLoad */,
+				58154FF82DF1DE6B00375723 /* NDIlib_Send_VirtualPTZ */,
+				58154FFA2DF1DE6B00375723 /* NDIlib_Recv_FrameSync_timing */,
+				58154FFC2DF1DE6B00375723 /* NDIlib_Recv_Audio_16bpp */,
+				58154FFE2DF1DE6B00375723 /* NDIlib_Send_10bit */,
+				581550002DF1DE6B00375723 /* NDIlib_Send_Video_Advanced */,
+				581550022DF1DE6B00375723 /* NDIlib_Recv_PTZ */,
+				581550042DF1DE6B00375723 /* NDIlib_Recv */,
+				581550062DF1DE6B00375723 /* NDIlib_Send_Latency */,
+				581550082DF1DE6B00375723 /* NDIlib_Send_BMD */,
+				5815502A2DF1DE6B00375723 /* NDIlib_Send_Audio_16bpp */,
+				5815502C2DF1DE6B00375723 /* NDIlib_Send_Audio */,
+				5815502E2DF1DE6B00375723 /* NDIlib_Recv_Multichannel */,
+				581550302DF1DE6B00375723 /* NDIlib_Recv_HDR */,
+				581550322DF1DE6B00375723 /* NDIlib_Send_16bit */,
+				581550342DF1DE6B00375723 /* NDIlib_Recv_PNG */,
+				581550362DF1DE6B00375723 /* NDIlib_Send_Capabilities */,
+				581550382DF1DE6B00375723 /* NDIlib_FreeAudio */,
+				5815503A2DF1DE6B00375723 /* NDIlib_Tally_Echo */,
+				5815503C2DF1DE6B00375723 /* NDIlib_Recv_WebControl */,
+				5815503E2DF1DE6B00375723 /* NDIlib_Send_AudioFile */,
+				581550402DF1DE6B00375723 /* ThirdParty */,
+				581550472DF1DE6B00375723 /* NDIlib_Send_Benchmark_8K */,
+			);
+			path = "C++";
+			sourceTree = "<group>";
+		};
+		58154FDE2DF1DE6B00375723 /* NDIlib_Send_Video_and_Audio */ = {
+			isa = PBXGroup;
+			children = (
+				58154FDF2DF1DE6B00375723 /* NDIlib_Send_Video_and_Audio.cpp */,
+			);
+			path = NDIlib_Send_Video_and_Audio;
+			sourceTree = "<group>";
+		};
+		58154FE02DF1DE6B00375723 /* NDIlib_Send_Benchmark */ = {
+			isa = PBXGroup;
+			children = (
+				58154FE12DF1DE6B00375723 /* NDIlib_Send_Benchmark.cpp */,
+			);
+			path = NDIlib_Send_Benchmark;
+			sourceTree = "<group>";
+		};
+		58154FE22DF1DE6B00375723 /* NDIlib_Find */ = {
+			isa = PBXGroup;
+			children = (
+				58154FE32DF1DE6B00375723 /* NDIlib_Find.cpp */,
+			);
+			path = NDIlib_Find;
+			sourceTree = "<group>";
+		};
+		58154FE42DF1DE6B00375723 /* NDIlib_Routing */ = {
+			isa = PBXGroup;
+			children = (
+				58154FE52DF1DE6B00375723 /* NDIlib_Routing.cpp */,
+				58154FE62DF1DE6B00375723 /* NDIlib_Routing.xcodeproj */,
+			);
+			path = NDIlib_Routing;
+			sourceTree = "<group>";
+		};
+		58154FE72DF1DE6B00375723 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5815505A2DF1DE6C00375723 /* NDIlib_Routing */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		58154FE92DF1DE6B00375723 /* NDIlib_Send_Video */ = {
+			isa = PBXGroup;
+			children = (
+				58154FEA2DF1DE6B00375723 /* NDIlib_Send_Video.cpp */,
+			);
+			path = NDIlib_Send_Video;
+			sourceTree = "<group>";
+		};
+		58154FEB2DF1DE6B00375723 /* NDIlib_Recv_FrameSync */ = {
+			isa = PBXGroup;
+			children = (
+				58154FEC2DF1DE6B00375723 /* NDIlib_Recv_FrameSync.cpp */,
+			);
+			path = NDIlib_Recv_FrameSync;
+			sourceTree = "<group>";
+		};
+		58154FED2DF1DE6B00375723 /* NDIlib_Send_PNG */ = {
+			isa = PBXGroup;
+			children = (
+				58154FEE2DF1DE6B00375723 /* NDIlib_Send_PNG.cpp */,
+			);
+			path = NDIlib_Send_PNG;
+			sourceTree = "<group>";
+		};
+		58154FEF2DF1DE6B00375723 /* NDIlib_Send_Video_Async */ = {
+			isa = PBXGroup;
+			children = (
+				58154FF02DF1DE6B00375723 /* NDIlib_Send_Video_Async.cpp */,
+			);
+			path = NDIlib_Send_Video_Async;
+			sourceTree = "<group>";
+		};
+		58154FF12DF1DE6B00375723 /* NDIlib_Recv_FrameSync_resend */ = {
+			isa = PBXGroup;
+			children = (
+				58154FF22DF1DE6B00375723 /* NDIlib_Recv_FrameSync_resend.cpp */,
+			);
+			path = NDIlib_Recv_FrameSync_resend;
+			sourceTree = "<group>";
+		};
+		58154FF32DF1DE6B00375723 /* NDIlib_DynamicLoad */ = {
+			isa = PBXGroup;
+			children = (
+				58154FF42DF1DE6B00375723 /* NDIlib_DynamicLoad.cpp */,
+				58154FF52DF1DE6B00375723 /* NDIlib_DynamicLoad.xcodeproj */,
+			);
+			path = NDIlib_DynamicLoad;
+			sourceTree = "<group>";
+		};
+		58154FF62DF1DE6B00375723 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				581550542DF1DE6C00375723 /* NDIlib_DynamicLoad */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		58154FF82DF1DE6B00375723 /* NDIlib_Send_VirtualPTZ */ = {
+			isa = PBXGroup;
+			children = (
+				58154FF92DF1DE6B00375723 /* NDIlib_Send_VirtualPTZ.cpp */,
+			);
+			path = NDIlib_Send_VirtualPTZ;
+			sourceTree = "<group>";
+		};
+		58154FFA2DF1DE6B00375723 /* NDIlib_Recv_FrameSync_timing */ = {
+			isa = PBXGroup;
+			children = (
+				58154FFB2DF1DE6B00375723 /* NDIlib_Recv_FrameSync_timing.cpp */,
+			);
+			path = NDIlib_Recv_FrameSync_timing;
+			sourceTree = "<group>";
+		};
+		58154FFC2DF1DE6B00375723 /* NDIlib_Recv_Audio_16bpp */ = {
+			isa = PBXGroup;
+			children = (
+				58154FFD2DF1DE6B00375723 /* NDIlib_Recv_Audio_16bpp.cpp */,
+			);
+			path = NDIlib_Recv_Audio_16bpp;
+			sourceTree = "<group>";
+		};
+		58154FFE2DF1DE6B00375723 /* NDIlib_Send_10bit */ = {
+			isa = PBXGroup;
+			children = (
+				58154FFF2DF1DE6B00375723 /* NDIlib_Send_10bit.cpp */,
+			);
+			path = NDIlib_Send_10bit;
+			sourceTree = "<group>";
+		};
+		581550002DF1DE6B00375723 /* NDIlib_Send_Video_Advanced */ = {
+			isa = PBXGroup;
+			children = (
+				581550012DF1DE6B00375723 /* NDIlib_Send_Video_Advanced.cpp */,
+			);
+			path = NDIlib_Send_Video_Advanced;
+			sourceTree = "<group>";
+		};
+		581550022DF1DE6B00375723 /* NDIlib_Recv_PTZ */ = {
+			isa = PBXGroup;
+			children = (
+				581550032DF1DE6B00375723 /* NDIlib_Recv_PTZ.cpp */,
+			);
+			path = NDIlib_Recv_PTZ;
+			sourceTree = "<group>";
+		};
+		581550042DF1DE6B00375723 /* NDIlib_Recv */ = {
+			isa = PBXGroup;
+			children = (
+				581550052DF1DE6B00375723 /* NDIlib_Recv.cpp */,
+			);
+			path = NDIlib_Recv;
+			sourceTree = "<group>";
+		};
+		581550062DF1DE6B00375723 /* NDIlib_Send_Latency */ = {
+			isa = PBXGroup;
+			children = (
+				581550072DF1DE6B00375723 /* NDIlib_Send_Latency.cpp */,
+			);
+			path = NDIlib_Send_Latency;
+			sourceTree = "<group>";
+		};
+		581550082DF1DE6B00375723 /* NDIlib_Send_BMD */ = {
+			isa = PBXGroup;
+			children = (
+				581550092DF1DE6B00375723 /* NDIlib_Send_BMD.cpp */,
+				5815500A2DF1DE6B00375723 /* BMDSDK */,
+			);
+			path = NDIlib_Send_BMD;
+			sourceTree = "<group>";
+		};
+		5815500A2DF1DE6B00375723 /* BMDSDK */ = {
+			isa = PBXGroup;
+			children = (
+				5815500B2DF1DE6B00375723 /* Mac */,
+			);
+			path = BMDSDK;
+			sourceTree = "<group>";
+		};
+		5815500B2DF1DE6B00375723 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				5815500C2DF1DE6B00375723 /* include */,
+			);
+			path = Mac;
+			sourceTree = "<group>";
+		};
+		5815500C2DF1DE6B00375723 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				5815500D2DF1DE6B00375723 /* DeckLinkAPI_v7_1.h */,
+				5815500E2DF1DE6B00375723 /* DeckLinkAPI_v10_4.h */,
+				5815500F2DF1DE6B00375723 /* DeckLinkAPIConfiguration_v10_4.h */,
+				581550102DF1DE6B00375723 /* DeckLinkAPI_v8_0.h */,
+				581550112DF1DE6B00375723 /* DeckLinkAPIConfiguration.h */,
+				581550122DF1DE6B00375723 /* DeckLinkAPIDeckControl.h */,
+				581550132DF1DE6B00375723 /* DeckLinkAPIDispatch.cpp */,
+				581550142DF1DE6B00375723 /* DeckLinkAPI_v10_9.h */,
+				581550152DF1DE6B00375723 /* DeckLinkAPIConfiguration_v10_9.h */,
+				581550162DF1DE6B00375723 /* DeckLinkAPI_v7_6.h */,
+				581550172DF1DE6B00375723 /* DeckLinkAPIDispatch_v8_0.cpp */,
+				581550182DF1DE6B00375723 /* DeckLinkAPIModes.h */,
+				581550192DF1DE6B00375723 /* DeckLinkAPI_v9_9.h */,
+				5815501A2DF1DE6B00375723 /* DeckLinkAPIDiscovery.h */,
+				5815501B2DF1DE6B00375723 /* DeckLinkAPIStreaming.h */,
+				5815501C2DF1DE6B00375723 /* DeckLinkAPIConfiguration_v10_2.h */,
+				5815501D2DF1DE6B00375723 /* DeckLinkAPI_v10_2.h */,
+				5815501E2DF1DE6B00375723 /* DeckLinkAPI_v7_3.h */,
+				5815501F2DF1DE6B00375723 /* DeckLinkAPI_v7_9.h */,
+				581550202DF1DE6B00375723 /* DeckLinkAPIVersion.h */,
+				581550212DF1DE6B00375723 /* DeckLinkAPI_v10_6.h */,
+				581550222DF1DE6B00375723 /* DeckLinkAPI_v9_2.h */,
+				581550232DF1DE6B00375723 /* DeckLinkAPITypes.h */,
+				581550242DF1DE6B00375723 /* DeckLinkAPIDispatch_v7_6.cpp */,
+				581550252DF1DE6B00375723 /* DeckLinkAPIDispatch_v10_8.cpp */,
+				581550262DF1DE6B00375723 /* DeckLinkAPI.h */,
+				581550272DF1DE6B00375723 /* DeckLinkAPIConfiguration_v10_5.h */,
+				581550282DF1DE6B00375723 /* DeckLinkAPI_v10_5.h */,
+				581550292DF1DE6B00375723 /* DeckLinkAPI_v8_1.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		5815502A2DF1DE6B00375723 /* NDIlib_Send_Audio_16bpp */ = {
+			isa = PBXGroup;
+			children = (
+				5815502B2DF1DE6B00375723 /* NDIlib_Send_Audio_16bpp.cpp */,
+			);
+			path = NDIlib_Send_Audio_16bpp;
+			sourceTree = "<group>";
+		};
+		5815502C2DF1DE6B00375723 /* NDIlib_Send_Audio */ = {
+			isa = PBXGroup;
+			children = (
+				5815502D2DF1DE6B00375723 /* NDIlib_Send_Audio.cpp */,
+			);
+			path = NDIlib_Send_Audio;
+			sourceTree = "<group>";
+		};
+		5815502E2DF1DE6B00375723 /* NDIlib_Recv_Multichannel */ = {
+			isa = PBXGroup;
+			children = (
+				5815502F2DF1DE6B00375723 /* NDIlib_Recv_Multichannel.cpp */,
+			);
+			path = NDIlib_Recv_Multichannel;
+			sourceTree = "<group>";
+		};
+		581550302DF1DE6B00375723 /* NDIlib_Recv_HDR */ = {
+			isa = PBXGroup;
+			children = (
+				581550312DF1DE6B00375723 /* NDIlib_Recv_HDR.cpp */,
+			);
+			path = NDIlib_Recv_HDR;
+			sourceTree = "<group>";
+		};
+		581550322DF1DE6B00375723 /* NDIlib_Send_16bit */ = {
+			isa = PBXGroup;
+			children = (
+				581550332DF1DE6B00375723 /* NDIlib_Send_16bit.cpp */,
+			);
+			path = NDIlib_Send_16bit;
+			sourceTree = "<group>";
+		};
+		581550342DF1DE6B00375723 /* NDIlib_Recv_PNG */ = {
+			isa = PBXGroup;
+			children = (
+				581550352DF1DE6B00375723 /* NDIlib_Recv_PNG.cpp */,
+			);
+			path = NDIlib_Recv_PNG;
+			sourceTree = "<group>";
+		};
+		581550362DF1DE6B00375723 /* NDIlib_Send_Capabilities */ = {
+			isa = PBXGroup;
+			children = (
+				581550372DF1DE6B00375723 /* NDIlib_Send_Capabilities.cpp */,
+			);
+			path = NDIlib_Send_Capabilities;
+			sourceTree = "<group>";
+		};
+		581550382DF1DE6B00375723 /* NDIlib_FreeAudio */ = {
+			isa = PBXGroup;
+			children = (
+				581550392DF1DE6B00375723 /* NDIlib_FreeAudio.cpp */,
+			);
+			path = NDIlib_FreeAudio;
+			sourceTree = "<group>";
+		};
+		5815503A2DF1DE6B00375723 /* NDIlib_Tally_Echo */ = {
+			isa = PBXGroup;
+			children = (
+				5815503B2DF1DE6B00375723 /* NDIlib_Tally_Echo.cpp */,
+			);
+			path = NDIlib_Tally_Echo;
+			sourceTree = "<group>";
+		};
+		5815503C2DF1DE6B00375723 /* NDIlib_Recv_WebControl */ = {
+			isa = PBXGroup;
+			children = (
+				5815503D2DF1DE6B00375723 /* NDIlib_Recv_WebControl.cpp */,
+			);
+			path = NDIlib_Recv_WebControl;
+			sourceTree = "<group>";
+		};
+		5815503E2DF1DE6B00375723 /* NDIlib_Send_AudioFile */ = {
+			isa = PBXGroup;
+			children = (
+				5815503F2DF1DE6B00375723 /* NDIlib_Send_AudioFile.cpp */,
+			);
+			path = NDIlib_Send_AudioFile;
+			sourceTree = "<group>";
+		};
+		581550402DF1DE6B00375723 /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				581550412DF1DE6B00375723 /* lodepng.h */,
+				581550422DF1DE6B00375723 /* miniaudio.h */,
+				581550432DF1DE6B00375723 /* rapidxml_print.hpp */,
+				581550442DF1DE6B00375723 /* lodepng.cpp */,
+				581550452DF1DE6B00375723 /* rapidxml.hpp */,
+				581550462DF1DE6B00375723 /* picopng.hpp */,
+			);
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		581550472DF1DE6B00375723 /* NDIlib_Send_Benchmark_8K */ = {
+			isa = PBXGroup;
+			children = (
+				581550482DF1DE6B00375723 /* NDIlib_Send_Benchmark_8K.cpp */,
+			);
+			path = NDIlib_Send_Benchmark_8K;
+			sourceTree = "<group>";
+		};
+		581550492DF1DE6B00375723 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				5815504A2DF1DE6B00375723 /* macOS */,
+				5815504D2DF1DE6B00375723 /* iOS */,
+				5815504E2DF1DE6B00375723 /* tvOS */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		5815504A2DF1DE6B00375723 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				5815504B2DF1DE6B00375723 /* libndi.dylib */,
+				5815504C2DF1DE6B00375723 /* libndi_licenses.txt */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		5815504D2DF1DE6B00375723 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		5815504E2DF1DE6B00375723 /* tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				5815504F2DF1DE6B00375723 /* libndi_tvos.a */,
+			);
+			path = tvOS;
+			sourceTree = "<group>";
+		};
+		581550622DF1E08700375723 /* Base.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				581550632DF1E08700375723 /* LaunchScreen.storyboard */,
+			);
+			path = Base.lproj;
+			sourceTree = "<group>";
+		};
+		581550692DF1E08700375723 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				5815506A2DF1E08700375723 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		58154F442DF1D8CC00375723 /* LayerMapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58154F532DF1D8CD00375723 /* Build configuration list for PBXNativeTarget "LayerMapper" */;
+			buildPhases = (
+				58154F412DF1D8CC00375723 /* Sources */,
+				58154F422DF1D8CC00375723 /* Frameworks */,
+				58154F432DF1D8CC00375723 /* Resources */,
+				58154F7A2DF1D97900375723 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				58154F722DF1D97900375723 /* PBXTargetDependency */,
+				58154F8A2DF1DCB500375723 /* PBXTargetDependency */,
+			);
+			name = LayerMapper;
+			productName = LayerMapper;
+			productReference = 58154F452DF1D8CC00375723 /* LayerMapper.app */;
+			productType = "com.apple.product-type.application";
+		};
+		58154F592DF1D97800375723 /* NDI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58154F772DF1D97900375723 /* Build configuration list for PBXNativeTarget "NDI" */;
+			buildPhases = (
+				58154F562DF1D97800375723 /* Sources */,
+				58154F572DF1D97800375723 /* Frameworks */,
+				58154F582DF1D97800375723 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NDI;
+			productName = NDI;
+			productReference = 58154F5A2DF1D97800375723 /* NDI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		58154F812DF1DCB500375723 /* ScreenBroadcastSetupUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 58154F8C2DF1DCB500375723 /* Build configuration list for PBXNativeTarget "ScreenBroadcastSetupUI" */;
+			buildPhases = (
+				58154F7E2DF1DCB500375723 /* Sources */,
+				58154F7F2DF1DCB500375723 /* Frameworks */,
+				58154F802DF1DCB500375723 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ScreenBroadcastSetupUI;
+			productName = ScreenBroadcastSetupUI;
+			productReference = 58154F822DF1DCB500375723 /* ScreenBroadcastSetupUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		58154F3D2DF1D8CC00375723 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1420;
+				TargetAttributes = {
+					58154F442DF1D8CC00375723 = {
+						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
+					};
+					58154F592DF1D97800375723 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					58154F812DF1DCB500375723 = {
+						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
+					};
+				};
+			};
+			buildConfigurationList = 58154F402DF1D8CC00375723 /* Build configuration list for PBXProject "LayerMapper" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 58154F3C2DF1D8CC00375723;
+			productRefGroup = 58154F462DF1D8CC00375723 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 58154FF62DF1DE6B00375723 /* Products */;
+					ProjectRef = 58154FF52DF1DE6B00375723 /* NDIlib_DynamicLoad.xcodeproj */;
+				},
+				{
+					ProductGroup = 58154FD92DF1DE6B00375723 /* Products */;
+					ProjectRef = 58154FD82DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay.xcodeproj */;
+				},
+				{
+					ProductGroup = 58154FE72DF1DE6B00375723 /* Products */;
+					ProjectRef = 58154FE62DF1DE6B00375723 /* NDIlib_Routing.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				58154F442DF1D8CC00375723 /* LayerMapper */,
+				58154F592DF1D97800375723 /* NDI */,
+				58154F812DF1DCB500375723 /* ScreenBroadcastSetupUI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		581550542DF1DE6C00375723 /* NDIlib_DynamicLoad */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = NDIlib_DynamicLoad;
+			remoteRef = 581550532DF1DE6C00375723 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		581550572DF1DE6C00375723 /* NDIlib_Recv_Audio_MacPlay */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = NDIlib_Recv_Audio_MacPlay;
+			remoteRef = 581550562DF1DE6C00375723 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5815505A2DF1DE6C00375723 /* NDIlib_Routing */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = NDIlib_Routing;
+			remoteRef = 581550592DF1DE6C00375723 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		58154F432DF1D8CC00375723 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				581550762DF1E08700375723 /* Preview Assets.xcassets in Resources */,
+				581550722DF1E08700375723 /* LaunchScreen.storyboard in Resources */,
+				581550792DF1E08700375723 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58154F582DF1D97800375723 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58154F802DF1DCB500375723 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		58154F412DF1D8CC00375723 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5815506F2DF1E08700375723 /* ContentView.swift in Sources */,
+				581550782DF1E08700375723 /* SceneDelegate.swift in Sources */,
+				581550712DF1E08700375723 /* MonitorView.swift in Sources */,
+				581550752DF1E08700375723 /* NDIReceiver.swift in Sources */,
+				581550702DF1E08700375723 /* NDIEnvironment.swift in Sources */,
+				581550742DF1E08700375723 /* AppDelegate.swift in Sources */,
+				581550732DF1E08700375723 /* SourcePickerView.swift in Sources */,
+				5815507A2DF1E08700375723 /* PixelBufferView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58154F562DF1D97800375723 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58154F602DF1D97800375723 /* SampleHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		58154F7E2DF1DCB500375723 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58154F942DF1DD3B00375723 /* BroadcastSetupViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		58154F722DF1D97900375723 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58154F592DF1D97800375723 /* NDI */;
+			targetProxy = 58154F712DF1D97900375723 /* PBXContainerItemProxy */;
+		};
+		58154F8A2DF1DCB500375723 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 58154F812DF1DCB500375723 /* ScreenBroadcastSetupUI */;
+			targetProxy = 58154F892DF1DCB500375723 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		581550632DF1E08700375723 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				581550642DF1E08700375723 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		58154F512DF1D8CD00375723 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(PROJECT_DIR)/LayerMapper/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		58154F522DF1D8CD00375723 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(PROJECT_DIR)/LayerMapper/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		58154F542DF1D8CD00375723 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LayerMapper/Preview Content\"";
+				DEVELOPMENT_TEAM = U9759WPUN5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/NDI_SDK/include/**";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Potrzebujemy dostępu do sieci lokalnej, by wysyłać obraz przez NDI";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libs/NDI_SDK/lib",
+					"$(PROJECT_DIR)/libs",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile.LayerMapper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LayerMapper/LayerMapper-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		58154F552DF1D8CD00375723 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LayerMapper/LayerMapperRelease.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LayerMapper/Preview Content\"";
+				DEVELOPMENT_TEAM = U9759WPUN5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/NDI_SDK/include/**";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Potrzebujemy dostępu do sieci lokalnej, by wysyłać obraz przez NDI";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libs/NDI_SDK/lib",
+					"$(PROJECT_DIR)/libs",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LayerMapper/LayerMapper-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		58154F782DF1D97900375723 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NDI/ScreenBroadcast.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U9759WPUN5;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/NDI_SDK/include/**";
+				INFOPLIST_FILE = NDI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ScreenBroadcast;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Potrzebujemy dostępu do sieci lokalnej, by wysyłać obraz przez NDI";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile.LayerMapper.NDI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "NDI/ScreenBroadcast-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		58154F792DF1D97900375723 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = NDI/ScreenBroadcastRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U9759WPUN5;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/NDI_SDK/include/**";
+				INFOPLIST_FILE = NDI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ScreenBroadcast;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Potrzebujemy dostępu do sieci lokalnej, by wysyłać obraz przez NDI";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile.screenbroadcast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "NDI/ScreenBroadcast-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		58154F8D2DF1DCB500375723 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U9759WPUN5;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(PROJECT_DIR)/ScreenBroadcastSetupUI/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = ScreenBroadcastSetupUI;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Potrzebujemy dostępu do sieci lokalnej, by wysyłać obraz przez NDI";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile.LayerMapper.ScreenBroadcastSetupUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		58154F8E2DF1DCB500375723 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ScreenBroadcastSetupUI/ScreenBroadcastSetupUIRelease.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = U9759WPUN5;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "$(PROJECT_DIR)/ScreenBroadcastSetupUI/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = ScreenBroadcastSetupUI;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Potrzebujemy dostępu do sieci lokalnej, by wysyłać obraz przez NDI";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile.screenbroadcast.setup;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		58154F402DF1D8CC00375723 /* Build configuration list for PBXProject "LayerMapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58154F512DF1D8CD00375723 /* Debug */,
+				58154F522DF1D8CD00375723 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58154F532DF1D8CD00375723 /* Build configuration list for PBXNativeTarget "LayerMapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58154F542DF1D8CD00375723 /* Debug */,
+				58154F552DF1D8CD00375723 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58154F772DF1D97900375723 /* Build configuration list for PBXNativeTarget "NDI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58154F782DF1D97900375723 /* Debug */,
+				58154F792DF1D97900375723 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		58154F8C2DF1DCB500375723 /* Build configuration list for PBXNativeTarget "ScreenBroadcastSetupUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				58154F8D2DF1DCB500375723 /* Debug */,
+				58154F8E2DF1DCB500375723 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 58154F3D2DF1D8CC00375723 /* Project object */;
+}
