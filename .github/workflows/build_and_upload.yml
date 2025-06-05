@@ -101,7 +101,7 @@ jobs:
             CODE_SIGN_STYLE="Manual" \
             CODE_SIGN_IDENTITY="Apple Distribution" \
             CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
-            "PROVISIONING_PROFILE_SPECIFIER=LayerMapper AppStore Profile" \
+            "PROVISIONING_PROFILE_SPECIFIER[com.layermapper.mobile]=LayerMapper AppStore Profile" \
             "PROVISIONING_PROFILE_SPECIFIER[com.layermapper.mobile.screenbroadcast]=ScreenBroadcast AppStore Profile" \
             "PROVISIONING_PROFILE_SPECIFIER[com.layermapper.mobile.screenbroadcast.setup]=ScreenBroadcastSetupUI AppStore Profile"
 
