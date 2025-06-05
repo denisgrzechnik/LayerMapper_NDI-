@@ -918,7 +918,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "/Users/denisgrzechnik/openFrameworks/!xcode/LayerMapper/ScreenBroadcast/ScreenBroadcast-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "LayerMapper/ScreenBroadcast/ScreenBroadcast-Bridging-Header.h";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -955,7 +956,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ScreenBroadcast AppStore Profile";
 				SKIP_INSTALL = YES;
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "/Users/denisgrzechnik/openFrameworks/!xcode/LayerMapper/ScreenBroadcast/ScreenBroadcast-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "LayerMapper/ScreenBroadcast/ScreenBroadcast-Bridging-Header.h";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
