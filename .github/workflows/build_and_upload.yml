@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-submit:
-    name: Build i Wyslij do App Store
+    name: Build i Wyślij do App Store
     runs-on: macos-latest
 
     env:
@@ -17,7 +17,9 @@ jobs:
       APP_PROJECT: "LayerMapper.xcodeproj"
       APP_EXPORT_METHOD: "app-store"
       APP_BUNDLE_ID: "com.layermapper.mobile"
+      # Ścieżka, gdzie powstanie plik .xcarchive
       APP_ARCHIVE_PATH: "$HOME/Library/Developer/Xcode/Archives/$(date +%Y-%m-%d)/LayerMapper.xcarchive"
+      # Ścieżka, gdzie wrzucimy wynikowe .ipa
       APP_IPA_PATH: "$HOME/LayerMapper.ipa"
 
     steps:
@@ -45,7 +47,9 @@ jobs:
           P12_BASE64: ${{ secrets.P12_BASE64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
         run: |
+          # Kodujemy z Base64 → distribution.p12
           echo "$P12_BASE64" | base64 --decode > distribution.p12
+          # Importujemy do nowego keychaina
           security import distribution.p12 \
             -k ~/Library/Keychains/build.keychain \
             -P "$P12_PASSWORD" \
@@ -54,17 +58,18 @@ jobs:
       # —— Decode i zainstalowanie trzech provisioning profiles —— 
       - name: Decode and install Provisioning Profiles
         env:
-          MOBILEPROVISION_MAIN_BASE64:      ${{ secrets.MOBILEPROVISION_MAIN_BASE64 }}
+          MOBILEPROVISION_BASE64:      ${{ secrets.MOBILEPROVISION_BASE64 }}
           MOBILEPROVISION_BROADCAST_BASE64: ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
           MOBILEPROVISION_SETUP_BASE64:     ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
         run: |
-          # Profil dla com.layermapper.mobile
-          echo "$MOBILEPROVISION_MAIN_BASE64" | base64 --decode > LayerMapper.mobileprovision
-          # Profil dla com.layermapper.mobile.screenbroadcast
+          # 1) Profil dla com.layermapper.mobile
+          echo "$MOBILEPROVISION_BASE64" | base64 --decode > LayerMapper.mobileprovision
+          # 2) Profil dla com.layermapper.mobile.screenbroadcast
           echo "$MOBILEPROVISION_BROADCAST_BASE64" | base64 --decode > ScreenBroadcast.mobileprovision
-          # Profil dla com.layermapper.mobile.screenbroadcast.setup
+          # 3) Profil dla com.layermapper.mobile.screenbroadcast.setup
           echo "$MOBILEPROVISION_SETUP_BASE64" | base64 --decode > ScreenBroadcastSetupUI.mobileprovision
 
+          # Skopiujmy wszystkie do katalogu, który Xcode „widzi” jako źródło profili
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp LayerMapper.mobileprovision            ~/Library/MobileDevice/Provisioning\ Profiles/
           cp ScreenBroadcast.mobileprovision         ~/Library/MobileDevice/Provisioning\ Profiles/
@@ -85,9 +90,9 @@ jobs:
       - name: Build Archive
         run: |
           set -o pipefail
-          # “build.keychain” powinien być już w liście keychains
+          # Pobierz ścieżkę wszystkich keychainów, by użyć naszego „build.keychain”
           KEYCHAIN_PATH="$(security list-keychains -d user | tr -d '"' | tr '\n' ' ')"
-
+          
           xcodebuild archive \
             -project "$APP_PROJECT" \
             -scheme "$APP_SCHEME" \
@@ -96,9 +101,12 @@ jobs:
             CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="Apple Distribution" \
             CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
-            PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
-            PROVISIONING_PROFILE_SPECIFIER\[bundleId=com.layermapper.mobile.screenbroadcast\]="ScreenBroadcast AppStore Profile" \
-            PROVISIONING_PROFILE_SPECIFIER\[bundleId=com.layermapper.mobile.screenbroadcast.setup\]="ScreenBroadcastSetupUI AppStore Profile"
+            # GŁÓWNY profil do bundleId=com.layermapper.mobile
+            'PROVISIONING_PROFILE_SPECIFIER=LayerMapper AppStore Profile' \
+            # Podprofil dla bundleId=com.layermapper.mobile.screenbroadcast
+            'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast]=ScreenBroadcast AppStore Profile' \
+            # Podprofil dla bundleId=com.layermapper.mobile.screenbroadcast.setup
+            'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast.setup]=ScreenBroadcastSetupUI AppStore Profile'
 
       # —— Eksport gotowego .ipa —— 
       - name: Export IPA
@@ -120,6 +128,7 @@ jobs:
               <string>manual</string>
               <key>provisioningProfiles</key>
               <dict>
+                <!-- Dla com.layermapper.mobile (główna aplikacja) -->
                 <key>${APP_BUNDLE_ID}</key>
                 <string>LayerMapper AppStore Profile</string>
               </dict>
@@ -147,6 +156,5 @@ jobs:
       - name: Cleanup build keychain
         if: always()
         run: |
-          # Próbujemy oba warianty: build.keychain oraz build.keychain-db
           security delete-keychain build.keychain || true
           security delete-keychain build.keychain-db || true
