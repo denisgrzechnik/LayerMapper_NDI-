@@ -1,0 +1,21 @@
+# Ignoruj zredukowaną bibliotekę arm64
+/libs/libndi_ios_arm64.a
+
+# Ignoruj cały katalog NDI_SDK
+/libs/NDI_SDK/
+
+# Za to śledź ZIPy:
+!/libs/libndi_ios_arm64.a.zip
+!/libs/NDI_SDK.zip
+
+# Standardowe reguły Xcode:
+*.xcworkspace
+xcuserdata/
+DerivedData/
+build/
+*.moved-aside
+*.xcuserstate
+
+# Pliki systemowe
+.DS_Store
+*.swp
