@@ -21,18 +21,18 @@ jobs:
       APP_IPA_PATH: "$HOME/LayerMapper.ipa"
 
     steps:
-      # 1) Checkout z LFS
+      # 1) Checkout (z LFS)
       - name: Check out repository z LFS
         uses: actions/checkout@v4
         with:
           lfs: true
 
-      # 2) Zainstaluj Ruby (aby działalo altool)
+      # 2) Zainstaluj Ruby/lokalne narzędzia do altool
       - name: Ustaw Ruby (dla altool)
         run: |
           sudo gem install cocoapods --no-document
 
-      # 3) Stwórz keychain i zaimportuj certyfikat (.p12)
+      # 3) Stwórz keychain i dodaj certyfikat
       - name: Create keychain
         run: |
           security create-keychain -p "" build.keychain
@@ -41,7 +41,7 @@ jobs:
           security list-keychains -d user | tr -d '"' | tr '\n' ' ' | \
             xargs security list-keychains -s build.keychain
 
-      # 4) Odszyfruj i zainstaluj Distribution Certificate (.p12)
+      # 4) Dodaj Distribution Certificate (.p12)
       - name: Decode and install Distribution Certificate (.p12)
         env:
           P12_BASE64: ${{ secrets.P12_BASE64 }}
@@ -53,7 +53,7 @@ jobs:
             -P "$P12_PASSWORD" \
             -T /usr/bin/codesign
 
-      # 5) Odszyfruj i zainstaluj 3 provisioning profiles
+      # 5) Dodaj provisioning profiles
       - name: Decode and install Provisioning Profiles
         env:
           MOBILEPROVISION_BASE64:          ${{ secrets.MOBILEPROVISION_BASE64 }}
@@ -69,29 +69,25 @@ jobs:
           cp ScreenBroadcast.mobileprovision         ~/Library/MobileDevice/Provisioning\ Profiles/
           cp ScreenBroadcastSetupUI.mobileprovision  ~/Library/MobileDevice/Provisioning\ Profiles/
 
-      # 6) Rozpakowanie NDI_SDK.zip oraz libndi_ios_arm64.a.zip
+      # 6) Rozpakuj NDI_SDK.zip oraz libndi_ios_arm64.a.zip
       - name: Rozpakuj NDI_SDK.zip oraz libndi_ios_arm64.a.zip
         run: |
           set -e
-
-          # Upewnij się, że katalog docs i libs istnieją
           mkdir -p libs
 
-          # Rozpakuj NDI_SDK.zip -> libs/NDI_SDK/...
           if [ -f "libs/NDI_SDK.zip" ]; then
             unzip -q "libs/NDI_SDK.zip" -d libs/ || { echo "❌ Nie udało się rozpakować libs/NDI_SDK.zip"; exit 1; }
           else
             echo "❌ Brakuje pliku libs/NDI_SDK.zip"; exit 1
           fi
 
-          # Rozpakuj libndi_ios_arm64.a.zip -> libs/libndi_ios_arm64.a
           if [ -f "libs/libndi_ios_arm64.a.zip" ]; then
             unzip -q "libs/libndi_ios_arm64.a.zip" -d libs/ || { echo "❌ Nie udało się rozpakować libs/libndi_ios_arm64.a.zip"; exit 1; }
           else
             echo "ℹ️ Plik libs/libndi_ios_arm64.a.zip nie istnieje, pomijam."
           fi
 
-      # 7) Budowanie (Archive) z ręcznym podpisywaniem
+      # 7) Budowanie (Archive) z ręcznym podpisywaniem per-target
       - name: Build Archive
         run: |
           set -o pipefail
@@ -105,11 +101,11 @@ jobs:
             CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="Apple Distribution" \
             CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
-            'PROVISIONING_PROFILE_SPECIFIER=LayerMapper AppStore Profile' \
-            'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast]=ScreenBroadcast AppStore Profile' \
-            'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast.setup]=ScreenBroadcastSetupUI AppStore Profile'
+            PROVISIONING_PROFILE_SPECIFIER="LayerMapper AppStore Profile" \
+            PROVISIONING_PROFILE_SPECIFIER\[com.layermapper.mobile.screenbroadcast\]="ScreenBroadcast AppStore Profile" \
+            PROVISIONING_PROFILE_SPECIFIER\[com.layermapper.mobile.screenbroadcast.setup\]="ScreenBroadcastSetupUI AppStore Profile"
 
-      # 8) Eksport gotowego .ipa
+      # 8) Eksport .ipa
       - name: Export IPA
         run: |
           xcodebuild -exportArchive \
@@ -152,7 +148,7 @@ jobs:
             --password "$APPLE_SPECIFIC_PASSWORD" \
             --output-format xml
 
-      # 10) Sprzątanie: usunięcie utworzonego keychain
+      # 10) Sprzątanie: usuń keychain
       - name: Cleanup build keychain
         if: always()
         run: |
