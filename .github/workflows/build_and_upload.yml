@@ -36,7 +36,6 @@ jobs:
           security create-keychain -p "" build.keychain
           security set-keychain-settings -lut 21600 build.keychain
           security unlock-keychain -p "" build.keychain
-          # Dodajemy nasz keychain na początek listy
           security list-keychains -d user | tr -d '"' | tr '\n' ' ' | \
             xargs security list-keychains -s build.keychain
 
@@ -54,15 +53,12 @@ jobs:
       # —— Decode i zainstalowanie trzech provisioning profiles —— 
       - name: Decode and install Provisioning Profiles
         env:
-          MOBILEPROVISION_BASE64:         ${{ secrets.MOBILEPROVISION_BASE64 }}
+          MOBILEPROVISION_BASE64:          ${{ secrets.MOBILEPROVISION_BASE64 }}
           MOBILEPROVISION_BROADCAST_BASE64: ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
           MOBILEPROVISION_SETUP_BASE64:     ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
         run: |
-          # Profil dla com.layermapper.mobile
           echo "$MOBILEPROVISION_BASE64" | base64 --decode > LayerMapper.mobileprovision
-          # Profil dla com.layermapper.mobile.screenbroadcast
           echo "$MOBILEPROVISION_BROADCAST_BASE64" | base64 --decode > ScreenBroadcast.mobileprovision
-          # Profil dla com.layermapper.mobile.screenbroadcast.setup
           echo "$MOBILEPROVISION_SETUP_BASE64" | base64 --decode > ScreenBroadcastSetupUI.mobileprovision
 
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
@@ -73,24 +69,27 @@ jobs:
       # —— Rozpakowanie bibliotek NDI i przygotowanie include/lib —— 
       - name: Unzip NDI SDK for iOS i skopiuj nagłówki oraz bibliotekę
         run: |
-          # 1) Rozpakuj całe ndi_sdk_for_ios.zip do LayerMapper/NDI SDK for Apple
-          mkdir -p "LayerMapper/NDI SDK for Apple"
-          unzip -q ndi_sdk_for_ios.zip -d "LayerMapper/NDI SDK for Apple"
+          # 1) Rozpakuj całe ndi_sdk_for_ios.zip do katalogu tymczasowego
+          mkdir -p temp_NDI
+          unzip -q ndi_sdk_for_ios.zip -d temp_NDI
 
-          # 2) Upewnij się, że katalog include istnieje pod ScreenBroadcast
+          # 2) Znajdź folder Include i skopiuj nagłówki
+          INCLUDE_DIR=$(find temp_NDI -type d -name Include | head -n1)
           mkdir -p "ScreenBroadcast/include"
+          cp -R "$INCLUDE_DIR/"* "ScreenBroadcast/include/"
 
-          # 3) Skopiuj wszystkie pliki nagłówkowe (.h) z NDI SDK → ScreenBroadcast/include
-          cp -R "LayerMapper/NDI SDK for Apple/Include/"* "ScreenBroadcast/include/"
-
-          # 4) Upewnij się, że katalog lib istnieje pod ScreenBroadcast
+          # 3) Znajdź plik libndi_ios.a w SDK i skopiuj do ScreenBroadcast/lib
+          LIB_FILE=$(find temp_NDI -type f -name libndi_ios.a | head -n1)
           mkdir -p "ScreenBroadcast/lib"
+          cp "$LIB_FILE" "ScreenBroadcast/lib/"
 
-          # 5) Skopiuj bibliotekę libndi_ios.a z repozytorium → ScreenBroadcast/lib
-          cp "LayerMapper/ScreenBroadcast/libndi_ios.a" "ScreenBroadcast/lib/"
+          # 4) Skopiuj wersję libndi_ios.a z repo (jeśli istnieje) – nadpisze, jeśli nowsza
+          if [ -f "LayerMapper/ScreenBroadcast/libndi_ios.a" ]; then
+            cp "LayerMapper/ScreenBroadcast/libndi_ios.a" "ScreenBroadcast/lib/"
+          fi
 
-          # 6) Skopiuj bibliotekę z NDI SDK (nadpisze, jeśli nowsza)
-          cp "LayerMapper/NDI SDK for Apple/Lib/iOS/libndi_ios.a" "ScreenBroadcast/lib/"
+          # 5) Usuń folder tymczasowy
+          rm -rf temp_NDI
 
       # —— Budowanie (Archive) z ręcznym podpisywaniem —— 
       - name: Build Archive
@@ -144,7 +143,7 @@ jobs:
       - name: Upload to App Store (altool)
         env:
           APPLE_ID:               ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD:  ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          APP_SPECIFIC_PASSWORD:  ${{ secrets.APPLE_SPECIFIC_PASSWORD }}
         run: |
           xcrun altool --upload-app \
             --type ios \
