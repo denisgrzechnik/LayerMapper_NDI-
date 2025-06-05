@@ -897,7 +897,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U9759WPUN5;
-				"HEADER_SEARCH_PATHS[arch=*]" = "/Users/denisgrzechnik/openFrameworks/!xcode/LayerMapper/ScreenBroadcast/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/ScreenBroadcast/include";
 				INFOPLIST_FILE = ScreenBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -907,7 +907,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/LayerMapper/NDI\\ SDK\\ for\\ Apple/lib/iOS",
+					"$(LOCAL_LIBRARY_DIR)/NDI\\ SDK\\ for\\ Apple/lib/iOS",
 					"$(PROJECT_DIR)/ScreenBroadcast",
 				);
 				OTHER_LDFLAGS = (
@@ -934,7 +934,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = U9759WPUN5;
-				"HEADER_SEARCH_PATHS[arch=*]" = "/Users/denisgrzechnik/openFrameworks/!xcode/LayerMapper/ScreenBroadcast/include/**";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/ScreenBroadcast/include";
 				INFOPLIST_FILE = ScreenBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -944,7 +944,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/LayerMapper/NDI\\ SDK\\ for\\ Apple/lib/iOS",
+					"$(LOCAL_LIBRARY_DIR)/NDI\\ SDK\\ for\\ Apple/lib/iOS",
 					"$(PROJECT_DIR)/ScreenBroadcast",
 				);
 				OTHER_LDFLAGS = (
