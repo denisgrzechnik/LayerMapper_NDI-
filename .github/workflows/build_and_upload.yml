@@ -36,9 +36,8 @@ jobs:
           security create-keychain -p "" build.keychain
           security set-keychain-settings -lut 21600 build.keychain
           security unlock-keychain -p "" build.keychain
-          # Dodajemy nasz keychain na początek listy
-          security list-keychains -d user | tr -d '"' | tr '\n' ' ' | \
-            xargs security list-keychains -s build.keychain
+          # Dodajemy nasz keychain na początek listy keychains
+          security list-keychains -d user | tr -d '"' | tr '\n' ' ' | xargs security list-keychains -s build.keychain
 
       - name: Decode and install Distribution Certificate (.p12)
         env:
@@ -66,9 +65,9 @@ jobs:
           echo "$MOBILEPROVISION_SETUP_BASE64" | base64 --decode > ScreenBroadcastSetupUI.mobileprovision
 
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp LayerMapper.mobileprovision            ~/Library/MobileDevice/Provisioning\ Profiles/
-          cp ScreenBroadcast.mobileprovision         ~/Library/MobileDevice/Provisioning\ Profiles/
-          cp ScreenBroadcastSetupUI.mobileprovision  ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp LayerMapper.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp ScreenBroadcast.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp ScreenBroadcastSetupUI.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
       # —— Rozpakowanie bibliotek NDI —— 
       - name: Unzip NDI SDK for iOS
@@ -96,9 +95,9 @@ jobs:
             CODE_SIGN_STYLE=Manual \
             CODE_SIGN_IDENTITY="Apple Distribution" \
             CODE_SIGN_KEYCHAIN="$KEYCHAIN_PATH" \
-            "PROVISIONING_PROFILE_SPECIFIER=LayerMapper AppStore Profile" \
-            "PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast]=ScreenBroadcast AppStore Profile" \
-            "PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast.setup]=ScreenBroadcastSetupUI AppStore Profile"
+            'PROVISIONING_PROFILE_SPECIFIER=LayerMapper AppStore Profile' \
+            'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast]=ScreenBroadcast AppStore Profile' \
+            'PROVISIONING_PROFILE_SPECIFIER[bundleId=com.layermapper.mobile.screenbroadcast.setup]=ScreenBroadcastSetupUI AppStore Profile'
 
       # —— Eksport gotowego .ipa —— 
       - name: Export IPA
@@ -134,7 +133,7 @@ jobs:
       - name: Upload to App Store (altool)
         env:
           APPLE_ID:               ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD:  ${{ secrets.APPLE_SPECIFIC_PASSWORD }}
+          APP_SPECIFIC_PASSWORD:  ${{ secrets.APP_SPECIFIC_PASSWORD }}
         run: |
           xcrun altool --upload-app \
             --type ios \
@@ -147,6 +146,4 @@ jobs:
       - name: Cleanup build keychain
         if: always()
         run: |
-          # Próbujemy oba warianty: build.keychain oraz build.keychain-db
-          security delete-keychain build.keychain || true
-          security delete-keychain build.keychain-db || true
+          security delete-keychain build.keychain
