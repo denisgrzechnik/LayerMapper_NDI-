@@ -8,7 +8,7 @@ on:
 jobs:
   build_and_submit:
     name: Build i wyślij do App Store Connect
-    runs-on: macos-14
+    runs-on: macos-15
 
     env:
       APP_SCHEME:      LayerMapper
