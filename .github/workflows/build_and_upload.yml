@@ -1,157 +1,117 @@
 name: Build & Upload to App Store
-
 on:
   push:
     branches: [ main ]
     tags:     [ 'v*.*.*' ]
 
 jobs:
-  build_and_submit:
-    name: Build i wyślij do App Store Connect
+  build:
     runs-on: macos-latest
 
     env:
-      APP_SCHEME:   LayerMapper
-      APP_PROJECT:  LayerMapper.xcodeproj
-      ARCHIVE_DIR:  $HOME/Library/Developer/Xcode/Archives
-      APP_IPA_PATH: $HOME/LayerMapper.ipa
-      EXPORT_METHOD: app-store
+      APP_SCHEME:  LayerMapper
+      APP_PROJECT: LayerMapper.xcodeproj
+      ARCHIVE:     $HOME/LayerMapper.xcarchive
+      IPA_PATH:    $HOME/LayerMapper.ipa
+      TEAM_ID:     ${{ secrets.TEAM_ID }}
 
     steps:
-    # —--- 1. Checkout z LFS ----
+    # ---------- 1. Checkout ----------
     - uses: actions/checkout@v4
       with: { lfs: true }
 
-    # —--- 2. Ruby (altool) ----
+    # ---------- 2. Narzędzia ----------
     - run: sudo gem install cocoapods --no-document
 
-    # —--- 3. Keychain + certyfikat (.p12) ----
-    - name: Create temporary keychain
+    # ---------- 3. Keychain + cert ----------
+    - name: Keychain & cert
       run: |
-        set -x
         security create-keychain -p "" build.keychain
         security set-keychain-settings -lut 21600 build.keychain
         security unlock-keychain -p "" build.keychain
         security list-keychains -d user | tr -d '"' | xargs security list-keychains -s build.keychain
+        echo "${{ secrets.P12_BASE64 }}" | base64 -d > dist.p12
+        security import dist.p12 -k ~/Library/Keychains/build.keychain -P "${{ secrets.P12_PASSWORD }}" -T /usr/bin/codesign
 
-    - name: Import distribution certificate
+    # ---------- 4. Provisioning profiles ----------
+    - name: Install provisioning profiles
       env:
-        P12_BASE64:  ${{ secrets.P12_BASE64 }}
-        P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+        MP_APP:   ${{ secrets.MOBILEPROVISION_BASE64 }}
+        MP_BC:    ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
+        MP_SU:    ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
       run: |
-        set -x
-        echo "$P12_BASE64" | base64 --decode > dist.p12
-        security import dist.p12 -k ~/Library/Keychains/build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
-
-    # —--- 4. Provisioning profiles (decode → ~/Library/… ) ----
-    - name: Decode & install provisioning profiles
-      env:
-        MP_APP:     ${{ secrets.MOBILEPROVISION_BASE64 }}
-        MP_BC:      ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
-        MP_SETUP:   ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
-      run: |
-        set -x
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+        echo "$MP_APP" | base64 -d > LM.mobileprovision
+        echo "$MP_BC"  | base64 -d > BC.mobileprovision
+        echo "$MP_SU"  | base64 -d > SU.mobileprovision
+        cp *.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
-        echo "$MP_APP"   | base64 --decode > LM.mobileprovision
-        echo "$MP_BC"    | base64 --decode > BC.mobileprovision
-        echo "$MP_SETUP" | base64 --decode > SETUP.mobileprovision
-
-        cp LM.mobileprovision    ~/Library/MobileDevice/Provisioning\ Profiles/
-        cp BC.mobileprovision    ~/Library/MobileDevice/Provisioning\ Profiles/
-        cp SETUP.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
-
-    # —--- 5. DEBUG: pokaż nazwy, UUID i AppID profili ----
-    - name: Debug - list installed profiles
-      run: |
+    # ---------- 5. Debug – lista profili ----------
+    - run: |
         for p in ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
           NAME=$(security cms -D -i "$p" | plutil -extract Name raw -)
           UUID=$(security cms -D -i "$p" | plutil -extract UUID raw -)
-          APP=$(security cms -D -i "$p" | plutil -extract Entitlements.application-identifier raw -)
-          echo "▶︎ $NAME | $UUID | $APP"
+          APP=$(security cms -D -i "$p"  | plutil -extract Entitlements.application-identifier raw -)
+          echo "$NAME | $UUID | $APP"
         done
 
-    # —--- 6. Pobierz UUID-y do zmiennych ----
-    - id: uuids
-      run: |
-        APP_UUID=$(security cms -D -i LM.mobileprovision    | plutil -extract UUID raw -)
-        BC_UUID=$(security cms -D -i BC.mobileprovision     | plutil -extract UUID raw -)
-        SETUP_UUID=$(security cms -D -i SETUP.mobileprovision | plutil -extract UUID raw -)
-        echo "app_uuid=$APP_UUID"   >> $GITHUB_OUTPUT
-        echo "bc_uuid=$BC_UUID"     >> $GITHUB_OUTPUT
-        echo "setup_uuid=$SETUP_UUID" >> $GITHUB_OUTPUT
-
-    # —--- 7. Rozpakuj NDI ----
-    - name: Unzip NDI artefacts
+    # ---------- 6. Rozpakuj NDI + slim ----------
+    - name: Unzip NDI & slim library
       run: |
         set -x
         mkdir -p libs
         unzip -q libs/NDI_SDK.zip            -d libs/
         unzip -q libs/libndi_ios_arm64.a.zip -d libs/
+        xcrun lipo libs/libndi_ios_arm64.a -thin arm64 -output libs/tmp.a
+        xcrun strip -x -S libs/tmp.a
+        mv libs/tmp.a libs/libndi_ios_arm64.a
+        ls -lh libs/libndi_ios_arm64.a
 
-    # —--- 8. Build Archive (UUID-y) ----
-    - name: Build Xcode archive
-      env:
-        APP_UUID:   ${{ steps.uuids.outputs.app_uuid }}
-        BC_UUID:    ${{ steps.uuids.outputs.bc_uuid }}
-        SETUP_UUID: ${{ steps.uuids.outputs.setup_uuid }}
+    # ---------- 7. Build archive (Automatic signing) ----------
+    - name: Xcode archive (automatic signing, 30-min timeout)
       run: |
         set -x
-        ARCHIVE_PATH="$ARCHIVE_DIR/$(date +%Y-%m-%d)/LayerMapper.xcarchive"
-
-        xcodebuild archive \
+        timeout 1800 xcodebuild archive -verbose \
           -project "$APP_PROJECT" \
           -scheme  "$APP_SCHEME" \
           -configuration Release \
-          -archivePath "$ARCHIVE_PATH" \
-          CODE_SIGN_STYLE=Manual \
+          -archivePath "$ARCHIVE" \
+          CODE_SIGN_STYLE=Automatic \
           CODE_SIGN_IDENTITY="Apple Distribution" \
-          CODE_SIGN_KEYCHAIN="$HOME/Library/Keychains/build.keychain-db" \
-          "PROVISIONING_PROFILE[com.layermapper.mobile]=$APP_UUID" \
-          "PROVISIONING_PROFILE[com.layermapper.mobile.screenbroadcast]=$BC_UUID" \
-          "PROVISIONING_PROFILE[com.layermapper.mobile.screenbroadcast.setup]=$SETUP_UUID"
+          OTHER_CODE_SIGN_FLAGS="--timestamp=none" \
+          -allowProvisioningUpdates
 
-    # —--- 9. Export IPA ----
+    # ---------- 8. Export IPA ----------
     - name: Export .ipa
       run: |
-        set -x
         xcodebuild -exportArchive \
-          -archivePath "$ARCHIVE_DIR/$(date +%Y-%m-%d)/LayerMapper.xcarchive" \
+          -archivePath "$ARCHIVE" \
           -exportOptionsPlist <(cat <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">
             <dict>
-              <key>method</key>              <string>${EXPORT_METHOD}</string>
-              <key>teamID</key>              <string>${{ secrets.TEAM_ID }}</string>
-              <key>signingStyle</key>        <string>manual</string>
-              <key>provisioningProfiles</key>
-              <dict>
-                <key>com.layermapper.mobile</key>                             <string>${{ steps.uuids.outputs.app_uuid }}</string>
-                <key>com.layermapper.mobile.screenbroadcast</key>             <string>${{ steps.uuids.outputs.bc_uuid }}</string>
-                <key>com.layermapper.mobile.screenbroadcast.setup</key>       <string>${{ steps.uuids.outputs.setup_uuid }}</string>
-              </dict>
+              <key>method</key> <string>app-store</string>
+              <key>teamID</key> <string>${TEAM_ID}</string>
+              <key>uploadSymbols</key> <true/>
+              <key>compileBitcode</key> <true/>
             </dict>
           </plist>
           EOF) \
-          -exportPath "$HOME"
+          -exportPath $HOME
 
-    # —--- 10. Upload do ASC ----
-    - name: Upload to App Store Connect
+    # ---------- 9. Upload do ASC ----------
+    - name: Upload IPA
       env:
         APPLE_ID:              ${{ secrets.APPLE_ID }}
         APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_SPECIFIC_PASSWORD }}
       run: |
-        set -x
         xcrun altool --upload-app \
-          --file "$APP_IPA_PATH" \
+          --file "$IPA_PATH" \
           --type ios \
           --username "$APPLE_ID" \
-          --password "$APPLE_SPECIFIC_PASSWORD" \
+          --password "$APP_SPECIFIC_PASSWORD" \
           --output-format xml
 
-    # —--- 11. Posprzątaj keychain ----
+    # ---------- 10. Sprzątanie ----------
     - if: always()
-      name: Cleanup keychain
-      run: |
-        security delete-keychain build.keychain || true
+      run: security delete-keychain build.keychain || true
