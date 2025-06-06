@@ -18,21 +18,21 @@ jobs:
       EXPORT_METHOD:   app-store
 
     steps:
-      # —--- 1. Checkout z LFS ----
+      # 1. Checkout (wraz z LFS)
       - uses: actions/checkout@v4
         with:
           lfs: true
 
-      # —--- 2. Ruby (altool) ----
-      - name: Install CocoaPods (potrzebne do altool)
+      # 2. Zainstaluj CocoaPods (potrzebne, aby móc używać altool później)
+      - name: Install CocoaPods (dla altool)
         run: sudo gem install cocoapods --no-document
 
-      # —--- 3. Keychain + certyfikat (.p12) ----
+      # 3. Utworzenie tymczasowego keychain oraz zaimportowanie certyfikatu .p12
       - name: Create temporary keychain
         run: |
           set -x
           security create-keychain -p "" build.keychain
-          security set-keychain-settings -lut 21600 build.keychain       # 6 h = czas joba
+          security set-keychain-settings -lut 21600 build.keychain       # 6 h
           security unlock-keychain -p "" build.keychain
           security list-keychains -d user | tr -d '"' | xargs security list-keychains -s build.keychain
 
@@ -44,7 +44,7 @@ jobs:
           set -x
           echo "$P12_BASE64" | base64 --decode > dist.p12
 
-          # import i od razu zezwól kluczowym narzędziom na użycie klucza
+          # import certyfikatu i zezwolenie narzędziom codesign/xcodebuild
           security import dist.p12 \
             -k ~/Library/Keychains/build.keychain \
             -P "$P12_PASSWORD" \
@@ -52,33 +52,33 @@ jobs:
             -T /usr/bin/xcodebuild \
             -T /usr/bin/security
 
-          # ✨ spraw: "Always Allow" dla apple-tool / codesign (usuwa okno dialogowe)
+          # "Always Allow" dla apple-tool oraz codesign (usuwa popup)
           security set-key-partition-list -S apple-tool:,codesign:,apple: \
             -s -k "" build.keychain
 
-      # (opcjonalnie) — szybka kontrola, czy klucz jest widoczny
+      # (opcjonalnie) – weryfikacja, czy certyfikat jest widoczny w keychain
       - name: Debug – verify signing identity
         run: security find-identity -v -p codesigning ~/Library/Keychains/build.keychain
 
-      # —--- 4. Provisioning profiles (decode → ~/Library/…) ----
+      # 4. Dekodowanie i instalacja provisioning profiles
       - name: Decode & install provisioning profiles
         env:
-          MP_APP:     ${{ secrets.MOBILEPROVISION_BASE64 }}
-          MP_BC:      ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
-          MP_SETUP:   ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
+          MOBILEPROVISION_BASE64:         ${{ secrets.MOBILEPROVISION_BASE64 }}
+          MOBILEPROVISION_BROADCAST_BASE64: ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
+          MOBILEPROVISION_SETUP_BASE64:     ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
         run: |
           set -x
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
-          echo "$MP_APP"   | base64 --decode > LM.mobileprovision
-          echo "$MP_BC"    | base64 --decode > BC.mobileprovision
-          echo "$MP_SETUP" | base64 --decode > SETUP.mobileprovision
+          echo "$MOBILEPROVISION_BASE64" | base64 --decode > LM.mobileprovision
+          echo "$MOBILEPROVISION_BROADCAST_BASE64" | base64 --decode > BC.mobileprovision
+          echo "$MOBILEPROVISION_SETUP_BASE64"    | base64 --decode > SETUP.mobileprovision
 
           cp LM.mobileprovision    ~/Library/MobileDevice/Provisioning\ Profiles/
           cp BC.mobileprovision    ~/Library/MobileDevice/Provisioning\ Profiles/
           cp SETUP.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
-      # —--- 5. DEBUG: pokaż nazwy, UUID i AppID profili ----
+      # 5. Debug – wypisz nazwy, UUID i AppID wszystkich zainstalowanych profili
       - name: Debug – list installed profiles
         run: |
           for p in ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
@@ -88,7 +88,7 @@ jobs:
             echo "▶︎ $NAME | $UUID | $APP"
           done
 
-      # —--- 6. Pobierz UUID-y do zmiennych ----
+      # 6. Wyciągnięcie UUID z każdego profilu do zmiennych output
       - id: uuids
         run: |
           APP_UUID=$(security cms -D -i LM.mobileprovision    | plutil -extract UUID raw -)
@@ -98,7 +98,7 @@ jobs:
           echo "bc_uuid=$BC_UUID"     >> $GITHUB_OUTPUT
           echo "setup_uuid=$SETUP_UUID" >> $GITHUB_OUTPUT
 
-      # —--- 7. Rozpakuj NDI ----
+      # 7. Rozpakowanie artefaktów NDI
       - name: Unzip NDI artefacts
         run: |
           set -x
@@ -106,7 +106,7 @@ jobs:
           unzip -q libs/NDI_SDK.zip            -d libs/
           unzip -q libs/libndi_ios_arm64.a.zip -d libs/
 
-      # —--- 8. Build Archive ----
+      # 8. Budowanie archiwum Xcode
       - name: Build Xcode archive
         env:
           APP_UUID:   ${{ steps.uuids.outputs.app_uuid }}
@@ -128,7 +128,7 @@ jobs:
             "PROVISIONING_PROFILE[com.layermapper.mobile.screenbroadcast]=$BC_UUID" \
             "PROVISIONING_PROFILE[com.layermapper.mobile.screenbroadcast.setup]=$SETUP_UUID"
 
-      # —--- 9. Export IPA (zapisujemy exportOptions.plist do pliku zamiast używać process substitution) ----
+      # 9. Eksport do pliku .ipa (zapisywanie exportOptions.plist do pliku zamiast process substitution)
       - name: Export .ipa
         env:
           APP_UUID:   ${{ steps.uuids.outputs.app_uuid }}
@@ -137,7 +137,6 @@ jobs:
         run: |
           set -x
 
-          # Tworzymy plik exportOptions.plist lokalnie
           cat <<EOF > exportOptions.plist
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -162,29 +161,29 @@ jobs:
           </plist>
           EOF
 
-          # Eksportujemy archiwum do .ipa, wskazując wygenerowany exportOptions.plist
           xcodebuild -exportArchive \
             -archivePath "$ARCHIVE_DIR/$(date +%Y-%m-%d)/LayerMapper.xcarchive" \
             -exportOptionsPlist exportOptions.plist \
             -exportPath "$HOME"
 
-      # —--- 10. Upload do App Store Connect ----
+      # 10. Upload do App Store Connect
       - name: Upload to App Store Connect
         env:
-          APPLE_ID:              ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_SPECIFIC_PASSWORD }}
+          APPLE_ID:                ${{ secrets.APPLE_ID }}
+          APP_SPECIFIC_PASSWORD:   ${{ secrets.APP_SPECIFIC_PASSWORD }}
         run: |
           set -x
-          # Upewniamy się, że ścieżka do ipa używa podwójnych cudzysłowów,
-          # aby $HOME było poprawnie rozwinięte
+          # Używamy formy --password "@env:APP_SPECIFIC_PASSWORD",
+          # żeby altool pobrał hasło wprost ze zmiennej środowiskowej
           xcrun altool --upload-app \
             --file "$HOME/LayerMapper.ipa" \
             --type ios \
             --username "$APPLE_ID" \
-            --password "$APPLE_SPECIFIC_PASSWORD" \
+            --password "@env:APP_SPECIFIC_PASSWORD" \
             --output-format xml
 
-      # —--- 11. Posprzątaj keychain ----
+      # 11. Cleanup keychain
       - if: always()
         name: Cleanup keychain
-        run: security delete-keychain build.keychain || true
+        run: |
+          security delete-keychain build.keychain || true
