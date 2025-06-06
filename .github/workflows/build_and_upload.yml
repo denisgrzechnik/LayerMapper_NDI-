@@ -125,22 +125,20 @@ jobs:
         # 1) utwórz tymczasowy ExportOptions.plist
         EXP_PLIST=$(mktemp /tmp/exportOptionsXXXX.plist)
         cat >"$EXP_PLIST" <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-  <dict>
-    <key>method</key>              <string>${EXPORT_METHOD}</string>
-    <key>teamID</key>              <string>${{ secrets.TEAM_ID }}</string>
-    <key>signingStyle</key>        <string>manual</string>
-    <key>provisioningProfiles</key>
-    <dict>
-      <key>com.layermapper.mobile</key>                       <string>${APP_UUID}</string>
-      <key>com.layermapper.mobile.screenbroadcast</key>       <string>${BC_UUID}</string>
-      <key>com.layermapper.mobile.screenbroadcast.setup</key> <string>${SETUP_UUID}</string>
-    </dict>
-  </dict>
-</plist>
-EOF
+
+        <dict>
+        <key>method</key>              <string>${EXPORT_METHOD}</string>
+        <key>teamID</key>              <string>${{ secrets.TEAM_ID }}</string>
+        <key>signingStyle</key>        <string>manual</string>
+        <key>provisioningProfiles</key>
+        <dict>
+        <key>com.layermapper.mobile</key>                       <string>${APP_UUID}</string>
+        <key>com.layermapper.mobile.screenbroadcast</key>       <string>${BC_UUID}</string>
+        <key>com.layermapper.mobile.screenbroadcast.setup</key> <string>${SETUP_UUID}</string>
+        </dict>
+        </dict>
+        </plist>
+        EOF
 
         # 2) poprawna ścieżka do archiwum
         ARCHIVE_PATH="$ARCHIVE_DIR/$(date +%Y-%m-%d)/LayerMapper.xcarchive"
