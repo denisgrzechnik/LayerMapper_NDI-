@@ -175,8 +175,10 @@ jobs:
           APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_SPECIFIC_PASSWORD }}
         run: |
           set -x
+          # Upewniamy się, że ścieżka do ipa używa podwójnych cudzysłowów,
+          # aby $HOME było poprawnie rozwinięte
           xcrun altool --upload-app \
-            --file "$APP_IPA_PATH" \
+            --file "$HOME/LayerMapper.ipa" \
             --type ios \
             --username "$APPLE_ID" \
             --password "$APPLE_SPECIFIC_PASSWORD" \
