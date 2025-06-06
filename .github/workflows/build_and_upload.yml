@@ -69,16 +69,13 @@ jobs:
           cp ScreenBroadcast.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
           cp ScreenBroadcastSetupUI.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
-      # —— Rozpakowanie bibliotek NDI —— 
-      - name: Unzip NDI SDK for iOS
+      # 5 ► Rozpakowanie NDI (SDK + statyczna biblioteka)
+      - name: Unzip NDI artefacts
         run: |
-          mkdir -p "LayerMapper/LayerMapper/NDI SDK for Apple"
-          unzip -q ndi_sdk_for_ios.zip -d "LayerMapper/LayerMapper/NDI SDK for Apple"
-
-      - name: Unzip libndi_ios.a
-        run: |
-          mkdir -p "LayerMapper/ScreenBroadcast"
-          unzip -q libndi_ios.zip -d "LayerMapper/ScreenBroadcast"
+          set -x
+          mkdir -p libs
+          unzip -q libs/NDI_SDK.zip            -d libs/
+          unzip -q libs/libndi_ios_arm64.a.zip -d libs/
 
       # —— Budowanie (Archive) z ręcznym podpisywaniem —— 
       - name: Build Archive
