@@ -30,20 +30,35 @@ jobs:
       run: |
         set -x
         security create-keychain -p "" build.keychain
-        security set-keychain-settings -lut 21600 build.keychain
+        security set-keychain-settings -lut 21600 build.keychain       # 6 h = czas joba
         security unlock-keychain -p "" build.keychain
         security list-keychains -d user | tr -d '"' | xargs security list-keychains -s build.keychain
 
-    - name: Import distribution certificate
+    - name: Import distribution certificate (non-interactive access)
       env:
-        P12_BASE64:  ${{ secrets.P12_BASE64 }}
+        P12_BASE64:   ${{ secrets.P12_BASE64 }}
         P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
       run: |
         set -x
         echo "$P12_BASE64" | base64 --decode > dist.p12
-        security import dist.p12 -k ~/Library/Keychains/build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
 
-    # —--- 4. Provisioning profiles (decode → ~/Library/… ) ----
+        # import i od razu zezwól kluczowym narzędziom na użycie klucza
+        security import dist.p12 \
+          -k ~/Library/Keychains/build.keychain \
+          -P "$P12_PASSWORD" \
+          -T /usr/bin/codesign \
+          -T /usr/bin/xcodebuild \
+          -T /usr/bin/security
+
+        # ✨ spraw: "Always Allow" dla apple-tool / codesign (usuwa okno dialogowe)
+        security set-key-partition-list -S apple-tool:,codesign:,apple: \
+          -s -k "" build.keychain
+
+    # (opcjonalnie) — szybka kontrola, czy klucz jest widoczny
+    - name: Debug – verify signing identity
+      run: security find-identity -v -p codesigning ~/Library/Keychains/build.keychain
+
+    # —--- 4. Provisioning profiles (decode → ~/Library/…) ----
     - name: Decode & install provisioning profiles
       env:
         MP_APP:     ${{ secrets.MOBILEPROVISION_BASE64 }}
@@ -62,7 +77,7 @@ jobs:
         cp SETUP.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
     # —--- 5. DEBUG: pokaż nazwy, UUID i AppID profili ----
-    - name: Debug - list installed profiles
+    - name: Debug – list installed profiles
       run: |
         for p in ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
           NAME=$(security cms -D -i "$p" | plutil -extract Name raw -)
@@ -89,7 +104,7 @@ jobs:
         unzip -q libs/NDI_SDK.zip            -d libs/
         unzip -q libs/libndi_ios_arm64.a.zip -d libs/
 
-    # —--- 8. Build Archive (UUID-y) ----
+    # —--- 8. Build Archive ----
     - name: Build Xcode archive
       env:
         APP_UUID:   ${{ steps.uuids.outputs.app_uuid }}
@@ -127,9 +142,9 @@ jobs:
               <key>signingStyle</key>        <string>manual</string>
               <key>provisioningProfiles</key>
               <dict>
-                <key>com.layermapper.mobile</key>                             <string>${{ steps.uuids.outputs.app_uuid }}</string>
-                <key>com.layermapper.mobile.screenbroadcast</key>             <string>${{ steps.uuids.outputs.bc_uuid }}</string>
-                <key>com.layermapper.mobile.screenbroadcast.setup</key>       <string>${{ steps.uuids.outputs.setup_uuid }}</string>
+                <key>com.layermapper.mobile</key>                       <string>${{ steps.uuids.outputs.app_uuid }}</string>
+                <key>com.layermapper.mobile.screenbroadcast</key>       <string>${{ steps.uuids.outputs.bc_uuid }}</string>
+                <key>com.layermapper.mobile.screenbroadcast.setup</key> <string>${{ steps.uuids.outputs.setup_uuid }}</string>
               </dict>
             </dict>
           </plist>
@@ -153,5 +168,4 @@ jobs:
     # —--- 11. Posprzątaj keychain ----
     - if: always()
       name: Cleanup keychain
-      run: |
-        security delete-keychain build.keychain || true
+      run: security delete-keychain build.keychain || true
