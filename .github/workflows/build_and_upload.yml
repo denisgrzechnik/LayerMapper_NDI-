@@ -75,7 +75,7 @@ jobs:
           set -x
           mkdir -p libs
           unzip -q libs/NDI_SDK.zip            -d libs/
-        unzip -q libs/libndi_ios_arm64.a.zip -d libs/
+          unzip -q libs/libndi_ios_arm64.a.zip -d libs/
 
       # —— Budowanie (Archive) z ręcznym podpisywaniem —— 
       - name: Build Archive
