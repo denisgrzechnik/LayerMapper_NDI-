@@ -25,7 +25,7 @@ jobs:
 
       # 2. Przełącz na Xcode 16 (iOS 18 SDK)
       - name: Install & switch to Xcode 16
-        uses: apple-actions/setup-xcode@v4
+        uses: actions/setup-xcode@v3
         with:
           xcode-version: '16.0'
 
