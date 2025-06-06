@@ -8,33 +8,31 @@ on:
 jobs:
   build_and_submit:
     name: Build i wyślij do App Store Connect
-    # macOS 14 → zawiera Xcode 16.x + SDK iOS 18
-    runs-on: macos-14
+    runs-on: macos-14        # Xcode 16 + iOS 18 SDK
 
     env:
       APP_SCHEME:    LayerMapper
       APP_PROJECT:   LayerMapper.xcodeproj
       ARCHIVE_DIR:   $HOME/Library/Developer/Xcode/Archives
-      APP_IPA_PATH:  $HOME/LayerMapper.ipa
       EXPORT_METHOD: app-store
 
     steps:
-    # 1. Checkout (z LFS)
+    # 1. Checkout
     - uses: actions/checkout@v4
       with:
         lfs: true
 
-    # 2. Wybór Xcode 16
+    # 2. Xcode 16
     - name: Select Xcode 16
       uses: maxim-lobanov/setup-xcode@v1
       with:
-        xcode-version: '16'          # możesz podać ‘latest-stable’ lub np. ‘16.2’
+        xcode-version: '16'
 
-    # 3. CocoaPods – potrzebne dla altool
-    - name: Install CocoaPods (dla altool)
-      run: sudo gem install cocoapods --no-document
+    # 3. CocoaPods (dla altool)
+    - run: sudo gem install cocoapods --no-document
+      name: Install CocoaPods
 
-    # 4. Tymczasowy keychain
+    # 4-5. Keychain + certyfikat (bez zmian)
     - name: Create temporary keychain
       run: |
         set -x
@@ -43,7 +41,6 @@ jobs:
         security unlock-keychain -p "" build.keychain
         security list-keychains -d user | tr -d '"' | xargs security list-keychains -s build.keychain
 
-    # 5. Certyfikat dystrybucyjny
     - name: Import distribution certificate
       env:
         P12_BASE64:   ${{ secrets.P12_BASE64 }}
@@ -59,10 +56,7 @@ jobs:
           -T /usr/bin/security
         security set-key-partition-list -S apple-tool:,codesign:,apple: -s -k "" build.keychain
 
-    - name: Debug – verify signing identity
-      run: security find-identity -v -p codesigning ~/Library/Keychains/build.keychain
-
-    # 6. Provisioning profiles
+    # 6-7. Provisioning profiles (jak wcześniej)
     - name: Decode & install provisioning profiles
       env:
         MOBILEPROVISION_BASE64:           ${{ secrets.MOBILEPROVISION_BASE64 }}
@@ -76,24 +70,11 @@ jobs:
         echo "$MOBILEPROVISION_SETUP_BASE64"     | base64 --decode > SETUP.mobileprovision
         cp *.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
-    - name: Debug – list installed profiles
-      run: |
-        for p in ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
-          NAME=$(security cms -D -i "$p" | plutil -extract Name raw -)
-          UUID=$(security cms -D -i "$p" | plutil -extract UUID raw -)
-          APP=$(security cms -D -i "$p" | plutil -extract Entitlements.application-identifier raw -)
-          echo "▶︎ $NAME | $UUID | $APP"
-        done
-
-    # 7. Wyciągamy UUID-y profili → outputs
     - id: uuids
       run: |
-        APP_UUID=$(security cms -D -i LM.mobileprovision    | plutil -extract UUID raw -)
-        BC_UUID=$(security cms -D -i BC.mobileprovision     | plutil -extract UUID raw -)
-        SETUP_UUID=$(security cms -D -i SETUP.mobileprovision | plutil -extract UUID raw -)
-        echo "app_uuid=$APP_UUID"     >> $GITHUB_OUTPUT
-        echo "bc_uuid=$BC_UUID"       >> $GITHUB_OUTPUT
-        echo "setup_uuid=$SETUP_UUID" >> $GITHUB_OUTPUT
+        echo "app_uuid=$(security cms -D -i LM.mobileprovision    | plutil -extract UUID raw -)"     >> $GITHUB_OUTPUT
+        echo "bc_uuid=$(security cms -D -i BC.mobileprovision     | plutil -extract UUID raw -)"     >> $GITHUB_OUTPUT
+        echo "setup_uuid=$(security cms -D -i SETUP.mobileprovision | plutil -extract UUID raw -)"   >> $GITHUB_OUTPUT
 
     # 8. Artefakty NDI
     - name: Unzip NDI artefacts
@@ -103,7 +84,7 @@ jobs:
         unzip -q libs/NDI_SDK.zip            -d libs/
         unzip -q libs/libndi_ios_arm64.a.zip -d libs/
 
-    # 9. Budujemy archiwum Xcode → zapisujemy archive_path w outputs
+    # 9. Budujemy archiwum ➜ outputs: archive_bundle
     - name: Build Xcode archive
       id: build
       env:
@@ -111,14 +92,15 @@ jobs:
         BC_UUID:    ${{ steps.uuids.outputs.bc_uuid }}
         SETUP_UUID: ${{ steps.uuids.outputs.setup_uuid }}
       run: |
-        set -x
-        ARCHIVE_PATH="$ARCHIVE_DIR/$(date +%Y-%m-%d)/LayerMapper.xcarchive"
-        echo "archive_path=$ARCHIVE_PATH" >> $GITHUB_OUTPUT
+        set -euo pipefail
+        DATE_DIR=$(date +%Y-%m-%d)
+        mkdir -p "$ARCHIVE_DIR/$DATE_DIR"
+        ARCHIVE_BASE="$ARCHIVE_DIR/$DATE_DIR/LayerMapper"
         xcodebuild archive \
           -project "$APP_PROJECT" \
           -scheme  "$APP_SCHEME" \
           -configuration Release \
-          -archivePath "$ARCHIVE_PATH" \
+          -archivePath "$ARCHIVE_BASE" \  # <-- bez .xcarchive!
           CODE_SIGN_STYLE=Manual \
           CODE_SIGN_IDENTITY="Apple Distribution" \
           CODE_SIGN_KEYCHAIN="$HOME/Library/Keychains/build.keychain" \
@@ -126,27 +108,38 @@ jobs:
           "PROVISIONING_PROFILE[com.layermapper.mobile.screenbroadcast]=$BC_UUID" \
           "PROVISIONING_PROFILE[com.layermapper.mobile.screenbroadcast.setup]=$SETUP_UUID"
 
-    # 10. Eksport .ipa – korzystamy z archive_path z poprzedniego kroku
+        ARCHIVE_BUNDLE="${ARCHIVE_BASE}.xcarchive"
+        echo "::notice::Archive created at $ARCHIVE_BUNDLE"
+        # zapisujemy pełną ścieżkę do outputs
+        echo "archive_bundle=$ARCHIVE_BUNDLE" >> $GITHUB_OUTPUT
+
+    # 10. Szybka kontrola – czy archiwum istnieje
+    - name: Verify archive path
+      run: |
+        ls -l "${{ steps.build.outputs.archive_bundle }}"
+
+    # 11. Eksport ipa
     - name: Export .ipa
       env:
         APP_UUID:   ${{ steps.uuids.outputs.app_uuid }}
         BC_UUID:    ${{ steps.uuids.outputs.bc_uuid }}
         SETUP_UUID: ${{ steps.uuids.outputs.setup_uuid }}
       run: |
-        set -x
-        ARCHIVE_PATH="${{ steps.build.outputs.archive_path }}"
+        set -euo pipefail
+        ARCHIVE_PATH="${{ steps.build.outputs.archive_bundle }}"
+
         cat > exportOptions.plist <<EOF
         <?xml version="1.0" encoding="UTF-8"?>
         <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
         <plist version="1.0">
           <dict>
-            <key>method</key><string>${EXPORT_METHOD}</string>
-            <key>teamID</key><string>${{ secrets.TEAM_ID }}</string>
-            <key>signingStyle</key><string>manual</string>
+            <key>method</key>            <string>${EXPORT_METHOD}</string>
+            <key>teamID</key>            <string>${{ secrets.TEAM_ID }}</string>
+            <key>signingStyle</key>      <string>manual</string>
             <key>provisioningProfiles</key>
             <dict>
-              <key>com.layermapper.mobile</key><string>${APP_UUID}</string>
-              <key>com.layermapper.mobile.screenbroadcast</key><string>${BC_UUID}</string>
+              <key>com.layermapper.mobile</key>                   <string>${APP_UUID}</string>
+              <key>com.layermapper.mobile.screenbroadcast</key>   <string>${BC_UUID}</string>
               <key>com.layermapper.mobile.screenbroadcast.setup</key><string>${SETUP_UUID}</string>
             </dict>
           </dict>
@@ -158,7 +151,7 @@ jobs:
           -exportOptionsPlist exportOptions.plist \
           -exportPath "$HOME"
 
-    # 11. Upload do App Store Connect
+    # 12. Upload do App Store Connect
     - name: Upload to App Store Connect
       env:
         APPLE_ID:              ${{ secrets.APPLE_ID }}
@@ -172,7 +165,7 @@ jobs:
           --password "@env:APP_SPECIFIC_PASSWORD" \
           --output-format xml
 
-    # 12. Sprzątanie keychaina
+    # 13. Cleanup keychain
     - if: always()
       name: Cleanup keychain
       run: security delete-keychain build.keychain || true
