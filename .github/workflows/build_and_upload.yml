@@ -23,11 +23,23 @@ jobs:
         with:
           lfs: true
 
-      # 2. Zainstaluj CocoaPods (potrzebne, aby móc używać altool później)
+      # 2. Przełącz na Xcode 16 (iOS 18 SDK)
+      - name: Install & switch to Xcode 16
+        uses: apple-actions/setup-xcode@v4
+        with:
+          xcode-version: '16.0'
+
+      # 3. Debug: sprawdź aktualną wersję Xcode i dostępne SDK
+      - name: Debug – Check Xcode version and SDKs
+        run: |
+          xcodebuild -version
+          xcodebuild -showsdks
+
+      # 4. Zainstaluj CocoaPods (potrzebne, żeby używać altool)
       - name: Install CocoaPods (dla altool)
         run: sudo gem install cocoapods --no-document
 
-      # 3. Utworzenie tymczasowego keychain oraz zaimportowanie certyfikatu .p12
+      # 5. Utworzenie tymczasowego keychain oraz zaimportowanie certyfikatu .p12
       - name: Create temporary keychain
         run: |
           set -x
@@ -56,29 +68,29 @@ jobs:
           security set-key-partition-list -S apple-tool:,codesign:,apple: \
             -s -k "" build.keychain
 
-      # (opcjonalnie) – weryfikacja, czy certyfikat jest widoczny w keychain
+      # 6. (opcjonalnie) – weryfikacja, czy certyfikat jest widoczny w keychain
       - name: Debug – verify signing identity
         run: security find-identity -v -p codesigning ~/Library/Keychains/build.keychain
 
-      # 4. Dekodowanie i instalacja provisioning profiles
+      # 7. Dekodowanie i instalacja provisioning profiles
       - name: Decode & install provisioning profiles
         env:
-          MOBILEPROVISION_BASE64:         ${{ secrets.MOBILEPROVISION_BASE64 }}
+          MOBILEPROVISION_BASE64:           ${{ secrets.MOBILEPROVISION_BASE64 }}
           MOBILEPROVISION_BROADCAST_BASE64: ${{ secrets.MOBILEPROVISION_BROADCAST_BASE64 }}
           MOBILEPROVISION_SETUP_BASE64:     ${{ secrets.MOBILEPROVISION_SETUP_BASE64 }}
         run: |
           set -x
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
-          echo "$MOBILEPROVISION_BASE64" | base64 --decode > LM.mobileprovision
+          echo "$MOBILEPROVISION_BASE64"           | base64 --decode > LM.mobileprovision
           echo "$MOBILEPROVISION_BROADCAST_BASE64" | base64 --decode > BC.mobileprovision
-          echo "$MOBILEPROVISION_SETUP_BASE64"    | base64 --decode > SETUP.mobileprovision
+          echo "$MOBILEPROVISION_SETUP_BASE64"     | base64 --decode > SETUP.mobileprovision
 
           cp LM.mobileprovision    ~/Library/MobileDevice/Provisioning\ Profiles/
           cp BC.mobileprovision    ~/Library/MobileDevice/Provisioning\ Profiles/
           cp SETUP.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
-      # 5. Debug – wypisz nazwy, UUID i AppID wszystkich zainstalowanych profili
+      # 8. Debug – wypisz nazwy, UUID i AppID wszystkich zainstalowanych profili
       - name: Debug – list installed profiles
         run: |
           for p in ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision; do
@@ -88,7 +100,7 @@ jobs:
             echo "▶︎ $NAME | $UUID | $APP"
           done
 
-      # 6. Wyciągnięcie UUID z każdego profilu do zmiennych output
+      # 9. Wyciągnięcie UUID z każdego profilu do zmiennych output
       - id: uuids
         run: |
           APP_UUID=$(security cms -D -i LM.mobileprovision    | plutil -extract UUID raw -)
@@ -98,7 +110,7 @@ jobs:
           echo "bc_uuid=$BC_UUID"     >> $GITHUB_OUTPUT
           echo "setup_uuid=$SETUP_UUID" >> $GITHUB_OUTPUT
 
-      # 7. Rozpakowanie artefaktów NDI
+      # 10. Rozpakowanie artefaktów NDI
       - name: Unzip NDI artefacts
         run: |
           set -x
@@ -106,7 +118,7 @@ jobs:
           unzip -q libs/NDI_SDK.zip            -d libs/
           unzip -q libs/libndi_ios_arm64.a.zip -d libs/
 
-      # 8. Budowanie archiwum Xcode
+      # 11. Budowanie archiwum Xcode
       - name: Build Xcode archive
         env:
           APP_UUID:   ${{ steps.uuids.outputs.app_uuid }}
@@ -128,7 +140,7 @@ jobs:
             "PROVISIONING_PROFILE[com.layermapper.mobile.screenbroadcast]=$BC_UUID" \
             "PROVISIONING_PROFILE[com.layermapper.mobile.screenbroadcast.setup]=$SETUP_UUID"
 
-      # 9. Eksport do pliku .ipa (zapisywanie exportOptions.plist do pliku zamiast process substitution)
+      # 12. Eksport do pliku .ipa (zapis exportOptions.plist do pliku)
       - name: Export .ipa
         env:
           APP_UUID:   ${{ steps.uuids.outputs.app_uuid }}
@@ -166,15 +178,13 @@ jobs:
             -exportOptionsPlist exportOptions.plist \
             -exportPath "$HOME"
 
-      # 10. Upload do App Store Connect
+      # 13. Upload do App Store Connect
       - name: Upload to App Store Connect
         env:
-          APPLE_ID:                ${{ secrets.APPLE_ID }}
-          APP_SPECIFIC_PASSWORD:   ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          APPLE_ID:              ${{ secrets.APPLE_ID }}
+          APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
         run: |
           set -x
-          # Używamy formy --password "@env:APP_SPECIFIC_PASSWORD",
-          # żeby altool pobrał hasło wprost ze zmiennej środowiskowej
           xcrun altool --upload-app \
             --file "$HOME/LayerMapper.ipa" \
             --type ios \
@@ -182,7 +192,7 @@ jobs:
             --password "@env:APP_SPECIFIC_PASSWORD" \
             --output-format xml
 
-      # 11. Cleanup keychain
+      # 14. Cleanup keychain
       - if: always()
         name: Cleanup keychain
         run: |
