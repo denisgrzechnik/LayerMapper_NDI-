@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ios_ipad_ndi.png",
+      "filename" : "ios_ipad_ndi.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ios_ipad_ndi 1.png",
+      "filename" : "ios_ipad_ndi 1.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ios_ipad_ndi 2.png",
+      "filename" : "ios_ipad_ndi 2.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

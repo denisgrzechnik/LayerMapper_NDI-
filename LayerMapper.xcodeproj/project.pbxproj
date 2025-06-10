@@ -30,6 +30,9 @@
 		581550812DF1E6EF00375723 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581550802DF1E6EF00375723 /* VideoToolbox.framework */; };
 		5865331C2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5865331B2DF2036A0079003B /* libndi_ios_arm64.a */; };
 		5865331D2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5865331B2DF2036A0079003B /* libndi_ios_arm64.a */; };
+		588C89F02DF8B2F5001272A7 /* FrameQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588C89EF2DF8B2F5001272A7 /* FrameQueue.swift */; };
+		58E646462DF85B12005FDC05 /* libndi_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E646452DF85B12005FDC05 /* libndi_ios.a */; };
+		58E646472DF85B12005FDC05 /* libndi_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E646452DF85B12005FDC05 /* libndi_ios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -237,6 +240,8 @@
 		5815507D2DF1E68300375723 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		581550802DF1E6EF00375723 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		5865331B2DF2036A0079003B /* libndi_ios_arm64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libndi_ios_arm64.a; sourceTree = "<group>"; };
+		588C89EF2DF8B2F5001272A7 /* FrameQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameQueue.swift; sourceTree = "<group>"; };
+		58E646452DF85B12005FDC05 /* libndi_ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libndi_ios.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +252,7 @@
 				581550812DF1E6EF00375723 /* VideoToolbox.framework in Frameworks */,
 				5815507F2DF1E69D00375723 /* libc++.tbd in Frameworks */,
 				5865331C2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */,
+				58E646462DF85B12005FDC05 /* libndi_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +263,7 @@
 				5815507E2DF1E68300375723 /* libc++.tbd in Frameworks */,
 				5865331D2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */,
 				58154F5D2DF1D97800375723 /* ReplayKit.framework in Frameworks */,
+				58E646472DF85B12005FDC05 /* libndi_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +304,6 @@
 		58154F472DF1D8CC00375723 /* LayerMapper */ = {
 			isa = PBXGroup;
 			children = (
-				5815507B2DF1E14700375723 /* LayerMapperRelease.entitlements */,
 				581550662DF1E08700375723 /* AppDelegate.swift */,
 				5815506D2DF1E08700375723 /* Assets.xcassets */,
 				581550622DF1E08700375723 /* Base.lproj */,
@@ -313,6 +319,7 @@
 				5815506C2DF1E08700375723 /* SceneDelegate.swift */,
 				581550652DF1E08700375723 /* SourcePickerView.swift */,
 				5815505D2DF1E08600375723 /* LayerMapper-Bridging-Header.h */,
+				588C89EF2DF8B2F5001272A7 /* FrameQueue.swift */,
 			);
 			path = LayerMapper;
 			sourceTree = "<group>";
@@ -355,6 +362,8 @@
 		58154F962DF1DDE100375723 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				5815507B2DF1E14700375723 /* LayerMapperRelease.entitlements */,
+				58E646452DF85B12005FDC05 /* libndi_ios.a */,
 				5865331B2DF2036A0079003B /* libndi_ios_arm64.a */,
 				58154F992DF1DE6B00375723 /* NDI_SDK */,
 			);
@@ -1183,6 +1192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				588C89F02DF8B2F5001272A7 /* FrameQueue.swift in Sources */,
 				5815506F2DF1E08700375723 /* ContentView.swift in Sources */,
 				581550782DF1E08700375723 /* SceneDelegate.swift in Sources */,
 				581550712DF1E08700375723 /* MonitorView.swift in Sources */,
@@ -1361,12 +1371,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LayerMapper/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = U9759WPUN5;
+				DEVELOPMENT_TEAM = U9759WPUN5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/NDI_SDK/include/**";
@@ -1393,7 +1401,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "LayerMapper AppStore Profile";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "LayerMapper/LayerMapper-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1456,11 +1463,9 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = NDI/ScreenBroadcast.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = U9759WPUN5;
+				DEVELOPMENT_TEAM = U9759WPUN5;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/libs/NDI_SDK/include/**";
 				INFOPLIST_FILE = NDI/Info.plist;
@@ -1481,7 +1486,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile.screenbroadcast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ScreenBroadcast AppStore Profile";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "NDI/ScreenBroadcast-Bridging-Header.h";
@@ -1534,17 +1538,16 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = U9759WPUN5;
+				DEVELOPMENT_TEAM = U9759WPUN5;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(PROJECT_DIR)/ScreenBroadcastSetupUI/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ScreenBroadcastSetupUI;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Potrzebujemy dostępu do sieci lokalnej, by wysyłać obraz przez NDI";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1554,7 +1557,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.layermapper.mobile.screenbroadcast.setup;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "ScreenBroadcastSetupUI AppStore Profile";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -1581,6 +1583,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = ScreenBroadcastSetupUI;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Potrzebujemy dostępu do sieci lokalnej, by wysyłać obraz przez NDI";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

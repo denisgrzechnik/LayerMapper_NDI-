@@ -1,4 +1,6 @@
 import ReplayKit
+import CoreImage
+import ImageIO 
 
 class SampleHandler: RPBroadcastSampleHandler {
     
@@ -63,51 +65,63 @@ class SampleHandler: RPBroadcastSampleHandler {
     }
     
     // MARK: Główna pętla klatek
-    override func processSampleBuffer(_ sb: CMSampleBuffer, with type: RPSampleBufferType) {
+    override func processSampleBuffer(_ sb: CMSampleBuffer,
+                                      with type: RPSampleBufferType) {
+
         guard type == .video,
               let send = pNDI_send,
-              let pb = CMSampleBufferGetImageBuffer(sb) else { return }
-        
-        // Utwórz CIImage z CVPixelBuffer
-        let ciImage = CIImage(cvPixelBuffer: pb)
-        
-        // Utwórz kontekst CIContext
-        let context = CIContext(options: nil)
-        
-        // Utwórz nowy CVPixelBuffer w formacie BGRA
-        var newPixelBuffer: CVPixelBuffer?
-        let attrs = [
-            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
-            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue,
+              let pb   = CMSampleBufferGetImageBuffer(sb) else { return }
+
+        // ---------- CIImage z bufora ----------
+        var image = CIImage(cvPixelBuffer: pb)
+
+        // ---------- orientacja (cofnij obrót) ----------
+        if let num = CMGetAttachment(sb,
+                                     key: RPVideoSampleOrientationKey as CFString,
+                                     attachmentModeOut: nil) as? NSNumber,
+           let ori = CGImagePropertyOrientation(rawValue: num.uint32Value) {
+
+            // „Odwracamy” orientację, żeby obraz wrócił do .up
+            switch ori {
+            case .left,  .leftMirrored:   image = image.oriented(.right)
+            case .right, .rightMirrored:  image = image.oriented(.left)
+            case .down,  .downMirrored:   image = image.oriented(.up)     // 180°
+            default: break                           // .up / .upMirrored – zostawiamy
+            }
+        }
+
+        // ---------- nowe wymiary ----------
+        let w = Int(image.extent.width.rounded())
+        let h = Int(image.extent.height.rounded())
+
+        // ---------- bufor BGRA ----------
+        var outPB: CVPixelBuffer?
+        let attrs: CFDictionary = [
+            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue!,
+            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue!,
             kCVPixelBufferPixelFormatTypeKey: kCVPixelFormatType_32BGRA
         ] as CFDictionary
-        
-        let width = CVPixelBufferGetWidth(pb)
-        let height = CVPixelBufferGetHeight(pb)
-        
-        CVPixelBufferCreate(kCFAllocatorDefault, width, height, kCVPixelFormatType_32BGRA, attrs, &newPixelBuffer)
-        
-        if let newPixelBuffer = newPixelBuffer {
-            // Renderuj CIImage do nowego bufora
-            context.render(ciImage, to: newPixelBuffer)
-            
-            // Struktura ramki NDI
-            var vf = NDIlib_video_frame_v2_t()
-            vf.xres = Int32(width)
-            vf.yres = Int32(height)
-            vf.FourCC = NDIlib_FourCC_type_BGRA
-            
-            // Pobranie danych pikseli
-            CVPixelBufferLockBaseAddress(newPixelBuffer, [])
-            if let base = CVPixelBufferGetBaseAddress(newPixelBuffer) {
-                vf.p_data = base.assumingMemoryBound(to: UInt8.self)
-            }
-            vf.line_stride_in_bytes = Int32(CVPixelBufferGetBytesPerRow(newPixelBuffer))
-            vf.timestamp = Int64(CACurrentMediaTime() * 1_000_000) // µs
-            
-            // Wysyłka klatki
-            NDIlib_send_send_video_v2(send, &vf)
-            CVPixelBufferUnlockBaseAddress(newPixelBuffer, [])
-        }
+        CVPixelBufferCreate(kCFAllocatorDefault, w, h,
+                            kCVPixelFormatType_32BGRA,
+                            attrs, &outPB)
+        guard let npb = outPB else { return }
+
+        // render CIImage → CVPixelBuffer
+        CIContext().render(image, to: npb)
+
+        // ---------- wysyłka NDI ----------
+        var vf = NDIlib_video_frame_v2_t()
+        vf.xres = Int32(w)
+        vf.yres = Int32(h)
+        vf.FourCC = NDIlib_FourCC_type_BGRA
+
+        CVPixelBufferLockBaseAddress(npb, [])
+        vf.p_data = CVPixelBufferGetBaseAddress(npb)!.assumingMemoryBound(to: UInt8.self)
+        vf.line_stride_in_bytes = Int32(CVPixelBufferGetBytesPerRow(npb))
+        vf.timestamp = Int64(CACurrentMediaTime() * 1_000_000)   // µs
+        NDIlib_send_send_video_v2(send, &vf)
+        CVPixelBufferUnlockBaseAddress(npb, [])
     }
-}
+
+    }
+
