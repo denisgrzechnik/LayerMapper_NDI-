@@ -1,5 +1,6 @@
 # Ignoruj zredukowaną bibliotekę arm64
 /libs/libndi_ios_arm64.a
+/libs/libndi_ios.a
 
 # Ignoruj cały katalog NDI_SDK
 /libs/NDI_SDK/

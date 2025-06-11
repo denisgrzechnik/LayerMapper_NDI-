@@ -30,9 +30,10 @@
 		581550812DF1E6EF00375723 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581550802DF1E6EF00375723 /* VideoToolbox.framework */; };
 		5865331C2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5865331B2DF2036A0079003B /* libndi_ios_arm64.a */; };
 		5865331D2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5865331B2DF2036A0079003B /* libndi_ios_arm64.a */; };
+		588AA81C2DF94CCC00F44414 /* libndi_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E0B0332DF8E1D5006424A0 /* libndi_ios.a */; };
 		588C89F02DF8B2F5001272A7 /* FrameQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588C89EF2DF8B2F5001272A7 /* FrameQueue.swift */; };
-		58E646462DF85B12005FDC05 /* libndi_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E646452DF85B12005FDC05 /* libndi_ios.a */; };
-		58E646472DF85B12005FDC05 /* libndi_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E646452DF85B12005FDC05 /* libndi_ios.a */; };
+		588C89F22DF8D590001272A7 /* MTKPixelBufferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588C89F12DF8D590001272A7 /* MTKPixelBufferView.swift */; };
+		58E0B0342DF8E1D5006424A0 /* libndi_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E0B0332DF8E1D5006424A0 /* libndi_ios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,19 +133,6 @@
 		58154FC32DF1DE6B00375723 /* libndi_licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = libndi_licenses.txt; sourceTree = "<group>"; };
 		58154FC42DF1DE6B00375723 /* Application.Mac.NDI.Benchmark */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = Application.Mac.NDI.Benchmark; sourceTree = "<group>"; };
 		58154FC62DF1DE6B00375723 /* libndi_licenses.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = libndi_licenses.txt; sourceTree = "<group>"; };
-		58154FC82DF1DE6B00375723 /* Processing.NDI.compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.compat.h; sourceTree = "<group>"; };
-		58154FC92DF1DE6B00375723 /* Processing.NDI.utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.utilities.h; sourceTree = "<group>"; };
-		58154FCA2DF1DE6B00375723 /* Processing.NDI.Recv.ex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Recv.ex.h; sourceTree = "<group>"; };
-		58154FCB2DF1DE6B00375723 /* Processing.NDI.deprecated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.deprecated.h; sourceTree = "<group>"; };
-		58154FCC2DF1DE6B00375723 /* Processing.NDI.Routing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Routing.h; sourceTree = "<group>"; };
-		58154FCD2DF1DE6B00375723 /* Processing.NDI.Send.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Send.h; sourceTree = "<group>"; };
-		58154FCE2DF1DE6B00375723 /* Processing.NDI.structs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.structs.h; sourceTree = "<group>"; };
-		58154FCF2DF1DE6B00375723 /* Processing.NDI.Lib.cplusplus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Lib.cplusplus.h; sourceTree = "<group>"; };
-		58154FD02DF1DE6B00375723 /* Processing.NDI.FrameSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.FrameSync.h; sourceTree = "<group>"; };
-		58154FD12DF1DE6B00375723 /* Processing.NDI.Find.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Find.h; sourceTree = "<group>"; };
-		58154FD22DF1DE6B00375723 /* Processing.NDI.DynamicLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.DynamicLoad.h; sourceTree = "<group>"; };
-		58154FD32DF1DE6B00375723 /* Processing.NDI.Recv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Recv.h; sourceTree = "<group>"; };
-		58154FD42DF1DE6B00375723 /* Processing.NDI.Lib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Lib.h; sourceTree = "<group>"; };
 		58154FD82DF1DE6B00375723 /* NDIlib_Recv_Audio_MacPlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = NDIlib_Recv_Audio_MacPlay.xcodeproj; sourceTree = "<group>"; };
 		58154FDC2DF1DE6B00375723 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		58154FDF2DF1DE6B00375723 /* NDIlib_Send_Video_and_Audio.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NDIlib_Send_Video_and_Audio.cpp; sourceTree = "<group>"; };
@@ -241,7 +229,23 @@
 		581550802DF1E6EF00375723 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		5865331B2DF2036A0079003B /* libndi_ios_arm64.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libndi_ios_arm64.a; sourceTree = "<group>"; };
 		588C89EF2DF8B2F5001272A7 /* FrameQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameQueue.swift; sourceTree = "<group>"; };
-		58E646452DF85B12005FDC05 /* libndi_ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libndi_ios.a; sourceTree = "<group>"; };
+		588C89F12DF8D590001272A7 /* MTKPixelBufferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTKPixelBufferView.swift; sourceTree = "<group>"; };
+		58E0B0242DF8E19E006424A0 /* Processing.NDI.Routing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Routing.h; sourceTree = "<group>"; };
+		58E0B0252DF8E19F006424A0 /* Processing.NDI.DynamicLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.DynamicLoad.h; sourceTree = "<group>"; };
+		58E0B0262DF8E19F006424A0 /* Processing.NDI.RecvAdvertiser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.RecvAdvertiser.h; sourceTree = "<group>"; };
+		58E0B0272DF8E19F006424A0 /* Processing.NDI.deprecated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.deprecated.h; sourceTree = "<group>"; };
+		58E0B0282DF8E19F006424A0 /* Processing.NDI.Recv.ex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Recv.ex.h; sourceTree = "<group>"; };
+		58E0B0292DF8E19F006424A0 /* Processing.NDI.Find.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Find.h; sourceTree = "<group>"; };
+		58E0B02A2DF8E19F006424A0 /* Processing.NDI.Recv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Recv.h; sourceTree = "<group>"; };
+		58E0B02B2DF8E19F006424A0 /* Processing.NDI.Lib.cplusplus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Lib.cplusplus.h; sourceTree = "<group>"; };
+		58E0B02C2DF8E19F006424A0 /* Processing.NDI.Send.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Send.h; sourceTree = "<group>"; };
+		58E0B02D2DF8E19F006424A0 /* Processing.NDI.utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.utilities.h; sourceTree = "<group>"; };
+		58E0B02E2DF8E19F006424A0 /* Processing.NDI.compat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.compat.h; sourceTree = "<group>"; };
+		58E0B02F2DF8E19F006424A0 /* Processing.NDI.RecvListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.RecvListener.h; sourceTree = "<group>"; };
+		58E0B0302DF8E19F006424A0 /* Processing.NDI.Lib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.Lib.h; sourceTree = "<group>"; };
+		58E0B0312DF8E19F006424A0 /* Processing.NDI.FrameSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.FrameSync.h; sourceTree = "<group>"; };
+		58E0B0322DF8E19F006424A0 /* Processing.NDI.structs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Processing.NDI.structs.h; sourceTree = "<group>"; };
+		58E0B0332DF8E1D5006424A0 /* libndi_ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libndi_ios.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,7 +256,7 @@
 				581550812DF1E6EF00375723 /* VideoToolbox.framework in Frameworks */,
 				5815507F2DF1E69D00375723 /* libc++.tbd in Frameworks */,
 				5865331C2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */,
-				58E646462DF85B12005FDC05 /* libndi_ios.a in Frameworks */,
+				58E0B0342DF8E1D5006424A0 /* libndi_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,7 +267,7 @@
 				5815507E2DF1E68300375723 /* libc++.tbd in Frameworks */,
 				5865331D2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */,
 				58154F5D2DF1D97800375723 /* ReplayKit.framework in Frameworks */,
-				58E646472DF85B12005FDC05 /* libndi_ios.a in Frameworks */,
+				588AA81C2DF94CCC00F44414 /* libndi_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +324,7 @@
 				581550652DF1E08700375723 /* SourcePickerView.swift */,
 				5815505D2DF1E08600375723 /* LayerMapper-Bridging-Header.h */,
 				588C89EF2DF8B2F5001272A7 /* FrameQueue.swift */,
+				588C89F12DF8D590001272A7 /* MTKPixelBufferView.swift */,
 			);
 			path = LayerMapper;
 			sourceTree = "<group>";
@@ -362,8 +367,8 @@
 		58154F962DF1DDE100375723 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				58E0B0332DF8E1D5006424A0 /* libndi_ios.a */,
 				5815507B2DF1E14700375723 /* LayerMapperRelease.entitlements */,
-				58E646452DF85B12005FDC05 /* libndi_ios.a */,
 				5865331B2DF2036A0079003B /* libndi_ios_arm64.a */,
 				58154F992DF1DE6B00375723 /* NDI_SDK */,
 			);
@@ -542,19 +547,21 @@
 		58154FC72DF1DE6B00375723 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				58154FC82DF1DE6B00375723 /* Processing.NDI.compat.h */,
-				58154FC92DF1DE6B00375723 /* Processing.NDI.utilities.h */,
-				58154FCA2DF1DE6B00375723 /* Processing.NDI.Recv.ex.h */,
-				58154FCB2DF1DE6B00375723 /* Processing.NDI.deprecated.h */,
-				58154FCC2DF1DE6B00375723 /* Processing.NDI.Routing.h */,
-				58154FCD2DF1DE6B00375723 /* Processing.NDI.Send.h */,
-				58154FCE2DF1DE6B00375723 /* Processing.NDI.structs.h */,
-				58154FCF2DF1DE6B00375723 /* Processing.NDI.Lib.cplusplus.h */,
-				58154FD02DF1DE6B00375723 /* Processing.NDI.FrameSync.h */,
-				58154FD12DF1DE6B00375723 /* Processing.NDI.Find.h */,
-				58154FD22DF1DE6B00375723 /* Processing.NDI.DynamicLoad.h */,
-				58154FD32DF1DE6B00375723 /* Processing.NDI.Recv.h */,
-				58154FD42DF1DE6B00375723 /* Processing.NDI.Lib.h */,
+				58E0B02E2DF8E19F006424A0 /* Processing.NDI.compat.h */,
+				58E0B0272DF8E19F006424A0 /* Processing.NDI.deprecated.h */,
+				58E0B0252DF8E19F006424A0 /* Processing.NDI.DynamicLoad.h */,
+				58E0B0292DF8E19F006424A0 /* Processing.NDI.Find.h */,
+				58E0B0312DF8E19F006424A0 /* Processing.NDI.FrameSync.h */,
+				58E0B02B2DF8E19F006424A0 /* Processing.NDI.Lib.cplusplus.h */,
+				58E0B0302DF8E19F006424A0 /* Processing.NDI.Lib.h */,
+				58E0B0282DF8E19F006424A0 /* Processing.NDI.Recv.ex.h */,
+				58E0B02A2DF8E19F006424A0 /* Processing.NDI.Recv.h */,
+				58E0B0262DF8E19F006424A0 /* Processing.NDI.RecvAdvertiser.h */,
+				58E0B02F2DF8E19F006424A0 /* Processing.NDI.RecvListener.h */,
+				58E0B0242DF8E19E006424A0 /* Processing.NDI.Routing.h */,
+				58E0B02C2DF8E19F006424A0 /* Processing.NDI.Send.h */,
+				58E0B0322DF8E19F006424A0 /* Processing.NDI.structs.h */,
+				58E0B02D2DF8E19F006424A0 /* Processing.NDI.utilities.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -1192,6 +1199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				588C89F22DF8D590001272A7 /* MTKPixelBufferView.swift in Sources */,
 				588C89F02DF8B2F5001272A7 /* FrameQueue.swift in Sources */,
 				5815506F2DF1E08700375723 /* ContentView.swift in Sources */,
 				581550782DF1E08700375723 /* SceneDelegate.swift in Sources */,

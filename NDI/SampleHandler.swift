@@ -1,12 +1,21 @@
 import ReplayKit
 import CoreImage
-import ImageIO 
+import ImageIO
 
 class SampleHandler: RPBroadcastSampleHandler {
     
     // Jednorazowa alokacja nazwy źródła NDI (C-string)
     private let ndiNamePtr = strdup("iOS Screen")
     private var pNDI_send: OpaquePointer?
+    
+    /// docelowa liczba klatek – dropujemy resztę
+     private let targetFPS: Double = 30
+     /// znacznik czasu ostatnio wysłanej klatki
+     private var lastFrameTime: CFTimeInterval = 0
+     /// jeden współdzielony kontekst CI – zamiast tworzyć go co klatkę
+     private let ciContext = CIContext()
+     // --------------------------------------------------------------------
+    private var pixelBufferPool: CVPixelBufferPool?
     
     // Bufor dla konwersji obrazu
     private var videoBuffer: UnsafeMutablePointer<UInt8>?
@@ -68,60 +77,67 @@ class SampleHandler: RPBroadcastSampleHandler {
     override func processSampleBuffer(_ sb: CMSampleBuffer,
                                       with type: RPSampleBufferType) {
 
+        // ——— 1. tylko wideo + limiter 30 fps
         guard type == .video,
               let send = pNDI_send,
               let pb   = CMSampleBufferGetImageBuffer(sb) else { return }
 
-        // ---------- CIImage z bufora ----------
+        let now = CACurrentMediaTime()
+        if now - lastFrameTime < 1.0 / targetFPS { return }
+        lastFrameTime = now
+
+        // ——— 2. CIImage + korekta orientacji
         var image = CIImage(cvPixelBuffer: pb)
-
-        // ---------- orientacja (cofnij obrót) ----------
-        if let num = CMGetAttachment(sb,
-                                     key: RPVideoSampleOrientationKey as CFString,
-                                     attachmentModeOut: nil) as? NSNumber,
-           let ori = CGImagePropertyOrientation(rawValue: num.uint32Value) {
-
-            // „Odwracamy” orientację, żeby obraz wrócił do .up
-            switch ori {
-            case .left,  .leftMirrored:   image = image.oriented(.right)
-            case .right, .rightMirrored:  image = image.oriented(.left)
-            case .down,  .downMirrored:   image = image.oriented(.up)     // 180°
-            default: break                           // .up / .upMirrored – zostawiamy
+        if let n = CMGetAttachment(sb, key: RPVideoSampleOrientationKey as CFString,
+                                   attachmentModeOut: nil) as? NSNumber,
+           let ori = CGImagePropertyOrientation(rawValue: n.uint32Value) {
+            switch ori {                 // cofamy obrót ReplayKit-a
+            case .left,  .leftMirrored:  image = image.oriented(.right)
+            case .right, .rightMirrored: image = image.oriented(.left)
+            case .down,  .downMirrored:  image = image.oriented(.up)
+            default: break
             }
         }
 
-        // ---------- nowe wymiary ----------
         let w = Int(image.extent.width.rounded())
         let h = Int(image.extent.height.rounded())
 
-        // ---------- bufor BGRA ----------
+        // ——— 3. CVPixelBuffer z puli (re-use, zero alokacji w pętli)
+        if pixelBufferPool == nil {
+            CVPixelBufferPoolCreate(nil, nil,
+                [kCVPixelBufferPixelFormatTypeKey: kCVPixelFormatType_32BGRA,
+                 kCVPixelBufferWidthKey: w,
+                 kCVPixelBufferHeightKey: h] as CFDictionary,
+                &pixelBufferPool)
+        }
         var outPB: CVPixelBuffer?
-        let attrs: CFDictionary = [
-            kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue!,
-            kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue!,
-            kCVPixelBufferPixelFormatTypeKey: kCVPixelFormatType_32BGRA
-        ] as CFDictionary
-        CVPixelBufferCreate(kCFAllocatorDefault, w, h,
-                            kCVPixelFormatType_32BGRA,
-                            attrs, &outPB)
+        CVPixelBufferPoolCreatePixelBuffer(nil, pixelBufferPool!, &outPB)
         guard let npb = outPB else { return }
 
-        // render CIImage → CVPixelBuffer
-        CIContext().render(image, to: npb)
+        ciContext.render(image, to: npb)
 
-        // ---------- wysyłka NDI ----------
+        // ——— 4. ramka NDI z *prawidłowym* FPS i aspektem
         var vf = NDIlib_video_frame_v2_t()
         vf.xres = Int32(w)
         vf.yres = Int32(h)
         vf.FourCC = NDIlib_FourCC_type_BGRA
 
+        vf.frame_rate_N = 30          // <<< klucz: meta 30/1 zamiast 30000/1001
+        vf.frame_rate_D = 1
+        vf.frame_format_type = NDIlib_frame_format_type_progressive
+        vf.picture_aspect_ratio = Float(w) / Float(h)
+
         CVPixelBufferLockBaseAddress(npb, [])
         vf.p_data = CVPixelBufferGetBaseAddress(npb)!.assumingMemoryBound(to: UInt8.self)
         vf.line_stride_in_bytes = Int32(CVPixelBufferGetBytesPerRow(npb))
-        vf.timestamp = Int64(CACurrentMediaTime() * 1_000_000)   // µs
-        NDIlib_send_send_video_v2(send, &vf)
+
+        // PTS z ReplayKit (opcjonalnie dokładniejsze od CACurrentMediaTime)
+        let pts = CMSampleBufferGetPresentationTimeStamp(sb)
+        vf.timestamp = Int64(Double(pts.value) / Double(pts.timescale) * 1_000_000)
+
+        NDIlib_send_send_video_v2(send, &vf)     // (możesz przełączyć na _async_v2)
         CVPixelBufferUnlockBaseAddress(npb, [])
     }
 
-    }
 
+    }

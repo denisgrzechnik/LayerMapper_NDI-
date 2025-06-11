@@ -4,6 +4,7 @@ import Accelerate
 
 /// Prosty odbiornik NDI → CVPixelBuffer BGRA
 final class NDIReceiver {
+    let queue = FrameQueue(capacity: 32)
     var onFrame: ((CVPixelBuffer) -> Void)?
 
     // MARK: – start
@@ -19,7 +20,7 @@ final class NDIReceiver {
         // -----------------------------------------------------------
 
         var desc = NDIlib_recv_create_v3_t()
-        desc.color_format = NDIlib_recv_color_format_fastest
+        desc.color_format = NDIlib_recv_color_format_BGRX_BGRA
 
         guard let r = NDIlib_recv_create_v3(&desc) else { return nil }
         NDIlib_recv_connect(r, &src)
@@ -45,7 +46,10 @@ final class NDIReceiver {
             let t = NDIlib_recv_capture_v2(_recv, &v, nil, nil, 1000)
             guard t == NDIlib_frame_type_video else { continue }
 
-            if let pb = pixelBuffer(from: &v) { onFrame?(pb) }
+            if let pb = pixelBuffer(from: &v) {
+                queue.push(pb)           // wrzutka do bufora
+                // onFrame?(pb)          // ← usuń albo zostaw – jak wolisz
+            }
             NDIlib_recv_free_video_v2(_recv, &v)
         }
     }
@@ -75,9 +79,7 @@ final class NDIReceiver {
         if f.FourCC == NDIlib_FourCC_type_BGRA {
             // Bezpośrednie kopiowanie dla BGRA
             memcpy(dst, f.p_data, Int(f.line_stride_in_bytes) * Int(f.yres))
-        } else if f.FourCC.rawValue == 1096178005 { // UYVY (YUV 4:2:2)
-            // Konwersja UYVY do BGRA
-            convertUYVYtoBGRA(from: f, to: px)
+        
         } else {
             // Fallback dla innych formatów - kopiowanie linia po linii
             for y in 0..<Int(f.yres) {
@@ -167,3 +169,4 @@ final class NDIReceiver {
         }
     }
 }
+

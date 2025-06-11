@@ -1,6 +1,43 @@
 import SwiftUI
 import CoreVideo
+import QuartzCore
 
+// MARK: - helper: stały zegar prezentacji + mostek do NDIReceiver
+final class DisplayLinkProxy {
+
+    private weak var receiver: NDIReceiver?
+    private let onFrame: (CVPixelBuffer) -> Void
+
+    private var ready   = false          // czy mamy rozbieg?
+    private let warmUp  = 3              // ile klatek przed startem
+
+    init(receiver: NDIReceiver?,
+         onFrame: @escaping (CVPixelBuffer) -> Void) {
+        self.receiver = receiver
+        self.onFrame  = onFrame
+    }
+
+    /// wywoływane przez CADisplayLink (na głównym wątku)
+    @objc func tick() {
+        guard let q = receiver?.queue else { return }
+
+        // 1. rozbieg – czekamy aż w buforze będzie ≥ warmUp klatek
+        if !ready {
+            ready = q.level >= warmUp
+            return
+        }
+
+        // 2. normalne odtwarzanie
+        if let pb = q.popNext() {
+            onFrame(pb)
+        } else {
+            // 3. underrun – bufor pusty → zrób kolejny rozbieg
+            ready = false
+        }
+    }
+}
+
+// MARK: - główny widok monitora
 struct MonitorView: View {
 
     // --------------------------------------------------
@@ -12,10 +49,12 @@ struct MonitorView: View {
     // --------------------------------------------------
     // MARK: – state
     // --------------------------------------------------
-    @State private var frame        : CVPixelBuffer?
-    @State private var receiver     : NDIReceiver?
-    @State private var showControls = true            // widoczność „X”
-    @State private var hideTask     : DispatchWorkItem?
+    @State private var frame: CVPixelBuffer?
+    @State private var receiver: NDIReceiver?
+    @State private var showControls = true
+    @State private var hideTask: DispatchWorkItem?
+    @State private var displayLink: CADisplayLink?
+    @State private var proxy: DisplayLinkProxy?     // <- przechowujemy proxy
 
     // --------------------------------------------------
     // MARK: – body
@@ -34,7 +73,7 @@ struct MonitorView: View {
                     .background(Color.black)
             }
 
-            // ---------- przycisk ----------
+            // ---------- przycisk „X” ----------
             if showControls {
                 Button { pres.wrappedValue.dismiss() } label: {
                     Image(systemName: "xmark")
@@ -45,40 +84,62 @@ struct MonitorView: View {
                 }
                 .padding(.top, 30)
                 .padding(.leading, 20)
-                .transition(.opacity)                // płynne znikanie
+                .transition(.opacity)
             }
         }
-        // ---------- gest tap ----------
-        .contentShape(Rectangle())                   // całe ZStack reaguje
+        .contentShape(Rectangle())
         .onTapGesture { showTempControls() }
 
         // ---------- life-cycle ----------
-        .onAppear {
-            startReceiver()
-            showTempControls()                       // startowe 3 s
-        }
-        .statusBar(hidden: true)       
+        .onAppear { onAppearActions() }
+        .onDisappear { onDisappearActions() }
+
+        .statusBar(hidden: true)
         .ignoresSafeArea()
     }
 
     // --------------------------------------------------
     // MARK: – helpers
     // --------------------------------------------------
-    private func startReceiver() {
-        receiver = NDIReceiver(sourceIndex: sourceIndex)
-        receiver?.onFrame = { pb in
-            DispatchQueue.main.async { self.frame = pb }
+
+    /// konfiguracja przy wejściu na ekran
+    private func onAppearActions() {
+        startReceiver()
+        showTempControls()
+
+        // włącz CADisplayLink dopiero, gdy receiver istnieje
+        if let rec = receiver {
+            let prox = DisplayLinkProxy(receiver: rec) { pb in
+                self.frame = pb
+            }
+            proxy = prox
+
+            let link = CADisplayLink(target: prox,
+                                     selector: #selector(DisplayLinkProxy.tick))
+            link.preferredFramesPerSecond = 30    // zmień na 30, jeśli wolisz
+            link.add(to: .main, forMode: .common)
+            displayLink = link
         }
     }
 
-    /// pokazuje przycisk i ustawia timer, który schowa go po 3 s
+    /// sprzątanie przy wyjściu
+    private func onDisappearActions() {
+        displayLink?.invalidate()
+        displayLink = nil
+        proxy = nil
+    }
+
+    /// uruchamia odbiornik NDI – bez bezpośredniego callbacku do UI
+    private func startReceiver() {
+        receiver = NDIReceiver(sourceIndex: sourceIndex)
+        // Klasyczny onFrame nie jest już potrzebny – bufor + CADisplayLink
+    }
+
+    /// pokazuje przycisk i chowa go po 3 s
     private func showTempControls() {
         withAnimation { showControls = true }
 
-        // anuluj poprzedni timer
         hideTask?.cancel()
-
-        // nowy timer
         let task = DispatchWorkItem {
             withAnimation { showControls = false }
         }
