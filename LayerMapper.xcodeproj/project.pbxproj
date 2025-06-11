@@ -30,10 +30,8 @@
 		581550812DF1E6EF00375723 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581550802DF1E6EF00375723 /* VideoToolbox.framework */; };
 		5865331C2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5865331B2DF2036A0079003B /* libndi_ios_arm64.a */; };
 		5865331D2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5865331B2DF2036A0079003B /* libndi_ios_arm64.a */; };
-		588AA81C2DF94CCC00F44414 /* libndi_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E0B0332DF8E1D5006424A0 /* libndi_ios.a */; };
 		588C89F02DF8B2F5001272A7 /* FrameQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588C89EF2DF8B2F5001272A7 /* FrameQueue.swift */; };
 		588C89F22DF8D590001272A7 /* MTKPixelBufferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588C89F12DF8D590001272A7 /* MTKPixelBufferView.swift */; };
-		58E0B0342DF8E1D5006424A0 /* libndi_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58E0B0332DF8E1D5006424A0 /* libndi_ios.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -256,7 +254,6 @@
 				581550812DF1E6EF00375723 /* VideoToolbox.framework in Frameworks */,
 				5815507F2DF1E69D00375723 /* libc++.tbd in Frameworks */,
 				5865331C2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */,
-				58E0B0342DF8E1D5006424A0 /* libndi_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +264,6 @@
 				5815507E2DF1E68300375723 /* libc++.tbd in Frameworks */,
 				5865331D2DF2036B0079003B /* libndi_ios_arm64.a in Frameworks */,
 				58154F5D2DF1D97800375723 /* ReplayKit.framework in Frameworks */,
-				588AA81C2DF94CCC00F44414 /* libndi_ios.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
